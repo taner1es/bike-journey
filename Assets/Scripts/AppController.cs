@@ -5,6 +5,7 @@ using UnityEngine;
 using AppEnums;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class AppController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class AppController : MonoBehaviour
     public GameObject videoPanel;
     public GameObject ballonGameParent;
     public GameObject matchingGameParent;
+    public VideoPlayer videoPlayer;
+    public VideoClip[] videoClips;
 
     private string currentAppState;
     public Destination goDestination;
@@ -94,6 +97,32 @@ public class AppController : MonoBehaviour
     public void OnGoButtonClicked()
     {
         goDestination = new Destination(player.selectedDestination);
+
+        PrepareVideoClip();
+
+    }
+
+
+    public void PrepareVideoClip()
+    {
+        string destination = goDestination.destinationName.ToString();
+        
+        switch (destination)
+        {
+            case "School":
+                videoPlayer.clip = videoClips[0];
+                break;
+            case "Camp":
+                videoPlayer.clip = videoClips[1];
+                break;
+            default:
+                videoPlayer.clip = videoClips[0];
+            break;
+        }
+
+        videoPlayer.playOnAwake = false;
+        videoPlayer.Prepare();
+
         storyMapPanel.SetActive(false);
         videoPanel.SetActive(true);
     }

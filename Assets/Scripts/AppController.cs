@@ -47,8 +47,8 @@ public class AppController : MonoBehaviour
         cameraHeight = Camera.main.orthographicSize;
         cameraWidth = cameraHeight * Camera.main.aspect;
 
-        InitializeApp();
-        //StartForTesting();
+        //InitializeApp();
+        StartForTesting();
     }
 
 

@@ -877,6 +877,10 @@ MonoBehaviour:
   videoPanel: {fileID: 2023302196}
   ballonGameParent: {fileID: 318240669}
   matchingGameParent: {fileID: 306373923}
+  videoPlayer: {fileID: 577426579}
+  videoClips:
+  - {fileID: 32900000, guid: 2f5ddce4cf543cc4281b8adcb1539de0, type: 3}
+  - {fileID: 32900000, guid: 170782740985b6841b3b5d61b042dde8, type: 3}
   cameraHeight: 0
   cameraWidth: 0
 --- !u!20 &519420031

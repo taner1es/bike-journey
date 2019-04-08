@@ -5,7 +5,7 @@ using AppEnums;
 
 public class Destination
 {
-    DestinationNames destinationName;
+    public DestinationNames destinationName;
     public List<Item> items = new List<Item>();
 
     private bool videoWatched;

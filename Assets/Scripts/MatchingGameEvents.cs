@@ -42,6 +42,7 @@ public class MatchingGameEvents : MonoBehaviour
 
     [Range(0f,100f)]
     public float paddingItemToRight;
+    private float matchingAreaBoundSizeX;
 
     private List<MatchingItemValues> matchingIcons;
     private List<MatchingItemValues> matchingAreas;
@@ -60,6 +61,7 @@ public class MatchingGameEvents : MonoBehaviour
 
     private void OnEnable()
     {
+        matchingAreaBoundSizeX = matchingAreaPrefab.GetComponent<Renderer>().bounds.size.x;
         matchingIcons = new List<MatchingItemValues>();
         matchingAreas = new List<MatchingItemValues>();
 
@@ -214,6 +216,7 @@ public class MatchingGameEvents : MonoBehaviour
         }
     }
 
+    //when an item removed from list update the new first and last index variables
     void ReorderFirstIndexAndLastIndex()
     {
         for (int i = 0; i < matchingIcons.Count; i++){
@@ -379,7 +382,7 @@ public class MatchingGameEvents : MonoBehaviour
         }
     }
 
-    //initialize all matchin areas
+    //initialize all matching icons and ares
     void CreateMatchingItems()
     {
 
@@ -400,24 +403,39 @@ public class MatchingGameEvents : MonoBehaviour
         matchingIcons.Clear();
 
         //create buttons dynamically
-        int i = 0;
-        float matchingAreaBoundSizeX = matchingAreaPrefab.GetComponent<Renderer>().bounds.size.x;
-        
+        ShuffleItems<Item>(AppController.instance.goDestination.items);
         foreach (Item item in AppController.instance.goDestination.items)
-        {
-            matchingAreas.Add(new MatchingItemValues(item, Instantiate(matchingAreaPrefab, matchingAreaStandPrefab.transform), false));
-            matchingIcons.Add(new MatchingItemValues(item, Instantiate(matchingIconPrefab, matchingIconStandPrefab.transform), true));
+            matchingIcons.Add(new MatchingItemValues(item, Instantiate(matchingIconPrefab, matchingIconStandPrefab.transform), true));   
 
-            if(i > 0)
-            {
-                matchingIcons[i].instance.transform.position = matchingIconStandPrefab.transform.position + new Vector3((matchingIcons[i - 1].instance.GetComponent<Renderer>().bounds.size.x + paddingItemToRight) * i, 0, -2);
-                matchingAreas[i].instance.transform.position = matchingAreaStandPrefab.transform.position + new Vector3((matchingAreaBoundSizeX + paddingItemToRight) * i,0,0);
-            }
-            
-            i++;
-        }
+        ShuffleItems<Item>(AppController.instance.goDestination.items);
+        foreach (Item item in AppController.instance.goDestination.items)
+            matchingAreas.Add(new MatchingItemValues(item, Instantiate(matchingAreaPrefab, matchingAreaStandPrefab.transform), false));
+
+        SetPositionsOfItems(matchingIcons);
+        SetPositionsOfItems(matchingAreas);
+
+        
+
         firstIndex = 0;
         lastIndex = matchingIcons.Count - 1;
+    }
+
+    private void SetPositionsOfItems(List<MatchingItemValues> list)
+    {
+        int i = 0;
+        foreach(MatchingItemValues iterator in list)
+        {
+            if (i > 0)
+            {
+                if(list == matchingIcons)
+                    //iterator.instance.transform.position = matchingIconStandPrefab.transform.position + new Vector3((matchingIcons[i - 1].instance.GetComponent<Renderer>().bounds.size.x + paddingItemToRight) * i, 0, -2);
+                    iterator.instance.transform.position = matchingIconStandPrefab.transform.position + new Vector3(paddingItemToRight * i, 0, -2);
+                else if(list == matchingAreas)
+                    //iterator.instance.transform.position = matchingAreaStandPrefab.transform.position + new Vector3((matchingAreaBoundSizeX + paddingItemToRight) * i, 0, 0);
+                    iterator.instance.transform.position = matchingAreaStandPrefab.transform.position + new Vector3((paddingItemToRight-5) * i, 0, 0);
+            }
+            i++;
+        }
     }
 
     void RevertIconToFirstPlace(Collider2D iconToRevert)
@@ -430,16 +448,31 @@ public class MatchingGameEvents : MonoBehaviour
                 if (item.instance.transform == iconToRevert.transform)
                 {
                     if (i > 0 && matchingIcons[i-1].instance != null)
-                        matchingIcons[i].instance.transform.position = matchingIconStandPrefab.transform.position + new Vector3((matchingIcons[i - 1].instance.GetComponent<Renderer>().bounds.size.x + paddingItemToRight) * i, 0, -2);
+                        matchingIcons[i].instance.transform.position = matchingIconStandPrefab.transform.position + new Vector3(paddingItemToRight * i, 0, -2);
                     else if(i == 0)
                         matchingIcons[i].instance.transform.position = new Vector3(matchingIconStandPrefab.transform.position.x, matchingIconStandPrefab.transform.position.y, -2);
                     else
-                        matchingIcons[i].instance.transform.position = matchingIconStandPrefab.transform.position + new Vector3((item.instance.GetComponent<Renderer>().bounds.size.x + paddingItemToRight) * i, 0, -2);
+                        matchingIcons[i].instance.transform.position = matchingIconStandPrefab.transform.position + new Vector3(paddingItemToRight * i, 0, -2);
                     heldIcon = false;
                     return;
                 }
             }
             i++;
+        }
+    }
+
+    void ShuffleItems<T>(List<T> list)
+    {
+        System.Random rng = new System.Random();
+
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
         }
     }
 }

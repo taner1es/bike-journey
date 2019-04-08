@@ -354,7 +354,7 @@ MonoBehaviour:
     type: 3}
   matchingAreaPrefab: {fileID: 6482570977342642498, guid: 0bb18523585182f44a8822d875cd48f9,
     type: 3}
-  paddingItemToRight: 5
+  paddingItemToRight: 15
 --- !u!1 &308075524
 GameObject:
   m_ObjectHideFlags: 0

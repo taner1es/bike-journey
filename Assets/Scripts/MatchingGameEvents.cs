@@ -42,26 +42,24 @@ public class MatchingGameEvents : MonoBehaviour
 
     [Range(0f,100f)]
     public float paddingItemToRight;
-    private float matchingAreaBoundSizeX;
 
     private List<MatchingItemValues> matchingIcons;
     private List<MatchingItemValues> matchingAreas;
 
     private Vector3 inputPosition;
+
     private float inputInterval;
     private bool heldStand;
     private bool heldIcon;
     private bool heldStandArea;
     private bool heldStandIcon;
     private Collider2D heldCollider;
-    int firstIndex;
-    int lastIndex;
 
-    string heldIconName = "icon", collidedAreaName = "area";
+    private int firstIndex;
+    private int lastIndex;
 
     private void OnEnable()
     {
-        matchingAreaBoundSizeX = matchingAreaPrefab.GetComponent<Renderer>().bounds.size.x;
         matchingIcons = new List<MatchingItemValues>();
         matchingAreas = new List<MatchingItemValues>();
 
@@ -76,42 +74,48 @@ public class MatchingGameEvents : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         SlideEvents();
         CheckForGameFinished();
         Debugger();
     }
 
+    //checks  for all items matched
     private void CheckForGameFinished()
     {
         if(matchingIcons.Count == 0)
         {
-            AppController.instance.InitializeApp();
+            Invoke("End", 3);
         }
     }
 
+    //matching game ends
+    private void End()
+    {
+        AppController.instance.InitializeApp();
+    }
+
+    //manage debug messages which is needed in runtime debugging
     private void Debugger()
     {
         Debugging.SetDebugText(
             " heldIcon: " + heldIcon.ToString() +
             "\n heldStand: " + heldStand.ToString() +
             "\n heldStandArea: " + heldStandArea +
-            "\n heldStandIcon: " + heldStandIcon +
-            /*"\n heldCollider: " + heldCollider  == null ? "null" : heldCollider.gameObject.name +*/
-            "\n heldIconName: " + heldIconName +
-            "\n collidedAreaName: " + collidedAreaName);
+            "\n heldStandIcon: " + heldStandIcon);
     }
 
-    
-
-    void SlideEvents()
+    /*manages slide handler priority,
+     * sample-scenerio: if icon is held then don't touch to stand slider anymore until release the icon
+     * sample-scenerio-2: if slider stand held then don't touch to icons anymore until release the stand.. */
+    private void SlideEvents()
     {
         GetFirstClick();
 
         if (heldIcon)
         {
-            SlideIcon();
+            DragIcon();
         }
         else if (heldStand)
         {
@@ -122,7 +126,8 @@ public class MatchingGameEvents : MonoBehaviour
         }
     }
 
-    void GetFirstClick()
+    //optimized input handler
+    private void GetFirstClick()
     {
         if (Input.GetMouseButtonUp(0))
         {
@@ -186,7 +191,7 @@ public class MatchingGameEvents : MonoBehaviour
     }
 
     //slider distributor
-    void SlideStandCheck(GameObject standPrefab)
+    private void SlideStandCheck(GameObject standPrefab)
     {
         SetInputIntervalOnStand(standPrefab);
         //PC,MAC,BROWSER INPUT BY MOUSE
@@ -217,7 +222,7 @@ public class MatchingGameEvents : MonoBehaviour
     }
 
     //when an item removed from list update the new first and last index variables
-    void ReorderFirstIndexAndLastIndex()
+    private void ReorderFirstIndexAndLastIndex()
     {
         for (int i = 0; i < matchingIcons.Count; i++){
             if (matchingIcons[i].instance != null)
@@ -241,6 +246,7 @@ public class MatchingGameEvents : MonoBehaviour
         }
     }
 
+    //checks for if the slider disappeared and reverts position
     private void GetSliderInsideScreen(GameObject standPrefab, List<MatchingItemValues> list)
     {
         int li, fi;
@@ -270,7 +276,8 @@ public class MatchingGameEvents : MonoBehaviour
 
     }
 
-    void SlideStand(GameObject standPrefab, List<MatchingItemValues> list)
+    //stand sliding handler
+    private void SlideStand(GameObject standPrefab, List<MatchingItemValues> list)
     {
         if (standPrefab.CompareTag("IconStand"))
         {
@@ -309,7 +316,8 @@ public class MatchingGameEvents : MonoBehaviour
         
     }
 
-    void SlideIcon()
+    //icon dragging handler
+    private void DragIcon()
     {
         //PC,MAC,BROWSER INPUT BY MOUSE
         if (heldCollider != null)
@@ -340,8 +348,9 @@ public class MatchingGameEvents : MonoBehaviour
             CheckIfItemMatchedAndDestroyed();
         }
     }
-    
-    bool CheckIfItemMatchedAndDestroyed()
+
+    //checks if an item matched correctly and destroyed from the list
+    private bool CheckIfItemMatchedAndDestroyed()
     {
         if(heldIcon)
         {
@@ -361,9 +370,9 @@ public class MatchingGameEvents : MonoBehaviour
         }
         return false;
     }
-    
+
     //slider interval calculator
-    void SetInputIntervalOnStand(GameObject standPrefab)
+    private void SetInputIntervalOnStand(GameObject standPrefab)
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -383,7 +392,7 @@ public class MatchingGameEvents : MonoBehaviour
     }
 
     //initialize all matching icons and ares
-    void CreateMatchingItems()
+    private void CreateMatchingItems()
     {
 
         //remove all matchingicons if any exists from previous of processes before create new ones
@@ -414,12 +423,11 @@ public class MatchingGameEvents : MonoBehaviour
         SetPositionsOfItems(matchingIcons);
         SetPositionsOfItems(matchingAreas);
 
-        
-
         firstIndex = 0;
         lastIndex = matchingIcons.Count - 1;
     }
 
+    //set positions of the items after instantiation
     private void SetPositionsOfItems(List<MatchingItemValues> list)
     {
         int i = 0;
@@ -438,7 +446,8 @@ public class MatchingGameEvents : MonoBehaviour
         }
     }
 
-    void RevertIconToFirstPlace(Collider2D iconToRevert)
+    //reverts held icon to first place if unholded at wrong matching position
+    private void RevertIconToFirstPlace(Collider2D iconToRevert)
     {
         int i = 0;
         foreach(MatchingItemValues item in matchingIcons)
@@ -461,7 +470,8 @@ public class MatchingGameEvents : MonoBehaviour
         }
     }
 
-    void ShuffleItems<T>(List<T> list)
+    //shuffling list, used for item list to shuffle before instantiation
+    private void ShuffleItems<T>(List<T> list)
     {
         System.Random rng = new System.Random();
 

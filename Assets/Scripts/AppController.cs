@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using AppEnums;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class AppController : MonoBehaviour
 {
     public bool mute;
-    public static AppController instance = null;
+    public static AppController instance = null; //singleton
 
     public ApplicationStates appState { get; set; }
 
@@ -50,8 +46,6 @@ public class AppController : MonoBehaviour
         //InitializeApp();
         StartForTesting();
     }
-
-
 
     void StartForTesting()
     {
@@ -101,7 +95,6 @@ public class AppController : MonoBehaviour
         PrepareVideoClip();
 
     }
-
 
     public void PrepareVideoClip()
     {

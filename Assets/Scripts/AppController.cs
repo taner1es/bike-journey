@@ -43,8 +43,8 @@ public class AppController : MonoBehaviour
         cameraHeight = Camera.main.orthographicSize;
         cameraWidth = cameraHeight * Camera.main.aspect;
 
-        //InitializeApp();
-        StartForTesting();
+        InitializeApp();
+        //StartForTesting();
     }
 
     void StartForTesting()
@@ -70,6 +70,12 @@ public class AppController : MonoBehaviour
         videoPanel.SetActive(false);
         ballonGameParent.SetActive(false);
         matchingGameParent.SetActive(false);
+    }
+
+    //Exit Button event on Start Menu Screen
+    public void OnExitButtonClicked()
+    {
+        Application.Quit();
     }
 
     //Play Button event on Start Menu Screen

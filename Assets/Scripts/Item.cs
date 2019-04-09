@@ -7,6 +7,7 @@ public class Item
     public int itemID;
     public string itemName;
     public string itemDestination;
+    public bool learnedBefore;
     
     public Item(string newItemDestination, int newID, string newName)
     {

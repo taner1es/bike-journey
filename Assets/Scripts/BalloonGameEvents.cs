@@ -89,7 +89,7 @@ public class BalloonGameEvents : MonoBehaviour
         Debugging.SetDebugText(
             " Ballons: " + i
             + "\n AppState: " + AppController.instance.appState.ToString() +
-            "\n Cur.Dest.: " + AppController.instance.player.currentDestination.ToString());
+            "\n Next.Dest.: " + AppController.instance.nextDestination.ToString());
     }
 
     //initialize all buttons for specific destination
@@ -233,8 +233,7 @@ public class BalloonGameEvents : MonoBehaviour
     //switch to matching game
     void GoToMatchingGame()
     {
-        AppController.instance.ballonGameParent.SetActive(false);
-        AppController.instance.matchingGameParent.SetActive(true);
+        AppController.instance.SetStage(AppEnums.ApplicationStates.MatchingGame);
     }
 
     IEnumerator WaitInSeconds(float second)

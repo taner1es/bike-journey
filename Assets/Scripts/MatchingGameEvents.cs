@@ -93,7 +93,7 @@ public class MatchingGameEvents : MonoBehaviour
     //matching game ends
     private void End()
     {
-        AppController.instance.InitializeApp();
+        AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
     }
 
     //manage debug messages which is needed in runtime debugging

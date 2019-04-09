@@ -9,7 +9,6 @@ public class VideoEvents : MonoBehaviour
     public VideoPlayer videoPlayer;
     bool fired = false;
 
-
     private void OnEnable()
     {
         fired = false;
@@ -20,6 +19,11 @@ public class VideoEvents : MonoBehaviour
             videoPlayer.GetComponent<VideoPlayer>().SetDirectAudioMute(0, true);
         else
             videoPlayer.GetComponent<VideoPlayer>().SetDirectAudioMute(0, false);
+    }
+
+    private void OnDisable()
+    {
+        videoPlayer.Stop();
     }
 
     private void Update()
@@ -68,7 +72,6 @@ public class VideoEvents : MonoBehaviour
     }
     void NextStage()
     {
-        AppController.instance.videoPanel.SetActive(false);
-        AppController.instance.ballonGameParent.SetActive(true);
+        AppController.instance.SetStage(AppEnums.ApplicationStates.BalloonGame);
     }
 }

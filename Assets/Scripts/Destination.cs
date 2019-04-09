@@ -8,10 +8,6 @@ public class Destination
     public DestinationNames destinationName;
     public List<Item> items = new List<Item>();
 
-    private bool videoWatched;
-    private bool balloonGamePlayed;
-    private bool matchingGamePlayed;
-
     public Destination(DestinationNames destinationToLoad)
     {
         AppController.instance.dataController = new DataController();

@@ -11,6 +11,10 @@ TagManager:
   - AreaStand
   - MatchingIcon
   - MatchingArea
+  - StoryMapDestination
+  - PlayerListScrollBar
+  - ProgressMenuPlayerSelectButton
+  - AskForSure
   layers:
   - Default
   - TransparentFX

@@ -12,6 +12,9 @@ public class AppController : MonoBehaviour
 
     public DestinationNames nextDestination;
 
+    public PlayerProgress allPlayerProgressData; 
+    public Player currentPlayer;
+
     public GameObject[] stages = new GameObject[5];
     public VideoPlayer videoPlayer;
     public VideoClip[] videoClips;
@@ -27,6 +30,7 @@ public class AppController : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log(Application.persistentDataPath);
         if (instance == null)
             instance = this;
         else if (instance != this)

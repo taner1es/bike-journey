@@ -8,10 +8,11 @@ using UnityEngine.EventSystems;
 public class StartMenu : MonoBehaviour
 {
     public GameObject[] startMenuButtons = new GameObject[3];
+    public GameObject progressSectionCanvas;
 
     private void OnEnable()
     {
-        
+        progressSectionCanvas.SetActive(false);
     }
 
     private void OnDisable()
@@ -58,9 +59,11 @@ public class StartMenu : MonoBehaviour
         }
     }
 
-    private void OnProgressButtonClicked()
+    public void OnProgressButtonClicked()
     {
-        throw new NotImplementedException();
+        //toggle panel menu
+        if(!progressSectionCanvas.activeSelf)
+            progressSectionCanvas.SetActive(true);
     }
 
     //Exit Button event on Start Menu Screen
@@ -72,7 +75,12 @@ public class StartMenu : MonoBehaviour
     //Play Button event on Start Menu Screen
     public void OnGoButtonClicked()
     {
-        AppController.instance.SetStage(ApplicationStates.StoryMap);
+        if(AppController.instance.currentPlayer != null)
+            AppController.instance.SetStage(ApplicationStates.StoryMap);
+        else
+        {
+            
+        }
     }
 
 }

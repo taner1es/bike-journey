@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5031116688265458284}
   - component: {fileID: 6441137896902226781}
   - component: {fileID: 3693268066856747755}
-  - component: {fileID: 3946960559167392921}
   m_Layer: 5
   m_Name: ButtonPlayerSelection
   m_TagString: ProgressMenuPlayerSelectButton
@@ -117,7 +116,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3946960559167392921}
+      - m_Target: {fileID: 397634924913724356, guid: eb5347d4e8a722f479485b6d6369829b,
+          type: 3}
         m_MethodName: OnPlayerSelectButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -130,18 +130,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &3946960559167392921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7253997120830853447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0498ba74bf0c77241b0b01f878d47c5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8379745199119692563
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +195,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Player_7
+  m_text: Player_2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d8917472d254fd4ba3a887f129599b1, type: 2}
   m_sharedMaterial: {fileID: 21978409765679754, guid: 4d8917472d254fd4ba3a887f129599b1,
@@ -277,9 +265,9 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2751403047108207067}
-    characterCount: 16
+    characterCount: 8
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 0
     wordCount: 2
     linkCount: 0
     lineCount: 1

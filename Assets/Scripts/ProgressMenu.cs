@@ -11,6 +11,8 @@ public class ProgressMenu : MonoBehaviour
     public GameObject prefabPlayerSelectButton;
     public GameObject prefabPlayerList;
     public GameObject deleteApplyPanel;
+    public TextMeshProUGUI progressInfoTMP;
+
     public static Player clickedPlayer;
 
 
@@ -74,14 +76,50 @@ public class ProgressMenu : MonoBehaviour
 
     public void OnSwitchButtonClicked()
     {
-        AppController.instance.currentPlayer = clickedPlayer;
-        Debug.Log("currentPlayer : " + AppController.instance.currentPlayer.PlayerName);
+        if(clickedPlayer != null)
+        {
+            AppController.instance.currentPlayer = clickedPlayer;
+            ProgressController.UpdateProfileInfoBar();
+            ProgressController.SaveProgress();
+            Debug.Log("currentPlayer : " + AppController.instance.currentPlayer.PlayerName);
+        }
+        else
+        {
+            Debug.Log("there is no clicked player, please click first.");
+        }
+
+        ShowProgressInfoForCurrentPlayer();
+    }
+
+    private void ShowProgressInfoForCurrentPlayer()
+    {
+        string text;
+
+        text = "ID: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerID.ToString() + "</color>";
+        text += "\nName: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerName + "</color>";
+        text += "\nLearned Words:\n\n";
+        text += "<color=\"red\">";
+        if (AppController.instance.currentPlayer.LearnedItems != null && AppController.instance.currentPlayer.LearnedItems.Count > 0)
+        {
+            foreach (Item iterator in AppController.instance.currentPlayer.LearnedItems)
+            {
+                text += iterator.itemName + "\n";
+            }
+            text += "\n<size=70%>Amount of Learned Words: " + AppController.instance.currentPlayer.LearnedItems.Count;
+        }
+        else
+        {
+            text += "<size=90%>No Words Have Learned Yet. You Are Ready to Learn New Words, Let's Begin..";
+        }
+        text += "</color>";
+        progressInfoTMP.text = text;
     }
 
     public void OnLoadButtonClicked()
     {
         LoadPlayerList();
     }
+
     public void OnCreateButtonClicked()
     {
         LoadPlayerList();
@@ -98,9 +136,15 @@ public class ProgressMenu : MonoBehaviour
     {
         DestroyListedPlayers();
         clickedPlayer = null;
+        deleteApplyPanel.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
-    }
 
+        //enable start menu buttons collisions again
+        foreach(GameObject iterator in GameObject.FindGameObjectsWithTag("StartMenuButton"))
+        {
+            iterator.GetComponent<Collider2D>().enabled = true;
+        }
+    }
 
     private void LoadPlayerList()
     {

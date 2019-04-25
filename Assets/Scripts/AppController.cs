@@ -30,7 +30,7 @@ public class AppController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(Application.persistentDataPath);
+        //singleton initialization
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -38,12 +38,36 @@ public class AppController : MonoBehaviour
 
         DontDestroyOnLoad(instance);
 
+        //set null current player on game awaked
+        currentPlayer = null;
+
+        //save file path
+        Debug.Log(Application.persistentDataPath);
+
+        //holding camera values
         cameraHeight = Camera.main.orthographicSize;
         cameraWidth = cameraHeight * Camera.main.aspect;
 
+        //sets active screen to welcome
         SetStage(ApplicationStates.StartMenu);
+
+        //tries to load saved game data if any exists from previous session(s)
+        ProgressController.LoadLastSession();
     }
 
+    private void OnApplicationQuit()
+    {
+        if(currentPlayer != null)
+        {
+            allPlayerProgressData.lastSessionPlayerId = currentPlayer.PlayerID;
+            Debug.Log("Saved - Last Session Id : " + allPlayerProgressData.lastSessionPlayerId);
+            ProgressController.SaveProgress();
+        }
+        else
+        {
+            Debug.Log("No currentPlayer Found and progress not saved.");
+        }
+    }
     public void SetStage(ApplicationStates stageToSet)
     {
         //goDestination = new Destination(DestinationNames.School);
@@ -58,7 +82,6 @@ public class AppController : MonoBehaviour
                 iterator.SetActive(true);
                 appState = stageToSet;
             }
-                
         }
     }
 

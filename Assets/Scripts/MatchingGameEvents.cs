@@ -93,6 +93,7 @@ public class MatchingGameEvents : MonoBehaviour
     //matching game ends
     private void End()
     {
+        ProgressController.SaveProgress();
         AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
     }
 
@@ -363,6 +364,9 @@ public class MatchingGameEvents : MonoBehaviour
                     //matchingAreas.RemoveAt(i);
                     matchingIcons.RemoveAt(i);
                     ReorderFirstIndexAndLastIndex();
+
+                    //add correctly matched item to player progress data list
+                    AppController.instance.currentPlayer.LearnedItems.Add(iterator.item);
                     return true;
                 }
                 i++;

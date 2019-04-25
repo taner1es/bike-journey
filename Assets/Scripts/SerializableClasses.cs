@@ -26,10 +26,12 @@ public class PlayerProgress
 {
     public static int idCounter;
     public int idCounterSaved;
+    public int lastSessionPlayerId;
     public List<Player> playersList;
 
     public PlayerProgress(string name)
     {
+        playersList = new List<Player>();
         idCounter = 0;
         playersList.Add(new Player(name));
     }
@@ -44,13 +46,15 @@ public class Player
 
     public Player(string newName)
     {
-        PlayerID = PlayerProgress.idCounter;
-        PlayerName = newName;
+        playerID = PlayerProgress.idCounter;
+        if(newName == "no-name")
+            playerName = "Player_" + playerID.ToString();
+        learnedItems = new List<Item>();
 
         PlayerProgress.idCounter++;
     }
 
-    public int PlayerID { get => playerID; set => playerID = value; }
+    public int PlayerID { get => playerID;}
     public string PlayerName { get => playerName; set => playerName = value; }
     public List<Item> LearnedItems { get => learnedItems; set => learnedItems = value; }
 }

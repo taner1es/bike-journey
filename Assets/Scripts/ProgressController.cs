@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using TMPro;
 using UnityEngine;
 
 public static class ProgressController
@@ -28,7 +29,7 @@ public static class ProgressController
         }
     }
 
-    public static bool LoadPlayer(int playerID)
+    public static bool SetCurrentPlayer(int playerID)
     {
         if (File.Exists(progressFilePath))
         {
@@ -56,13 +57,18 @@ public static class ProgressController
 
     public static void SaveProgress()
     {
-        AppController.instance.allPlayerProgressData.idCounterSaved = PlayerProgress.idCounter;
+        if(AppController.instance.allPlayerProgressData != null)
+        {
+            AppController.instance.allPlayerProgressData.idCounterSaved = PlayerProgress.idCounter;
+            if(AppController.instance.currentPlayer != null)
+                AppController.instance.allPlayerProgressData.lastSessionPlayerId = AppController.instance.currentPlayer.PlayerID;
 
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(progressFilePath);
-        bf.Serialize(file, AppController.instance.allPlayerProgressData);
-        file.Close();
-        Debug.Log("Progress Saved : " + progressFilePath);
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Create(progressFilePath);
+            bf.Serialize(file, AppController.instance.allPlayerProgressData);
+            file.Close();
+            Debug.Log("Progress Saved : " + progressFilePath);
+        }
     }
 
     public static void CreateNewPlayer(string name = "no-name")
@@ -70,5 +76,38 @@ public static class ProgressController
         AppController.instance.allPlayerProgressData = new PlayerProgress(name);
         Debug.Log("New Player Created");
         SaveProgress();
+    }
+
+    public static bool LoadLastSession()
+    {
+        if (LoadPlayerList())
+        {
+            Debug.Log("Loaded - Last Session ID : " + AppController.instance.allPlayerProgressData.lastSessionPlayerId);
+            if (SetCurrentPlayer(AppController.instance.allPlayerProgressData.lastSessionPlayerId))
+            {
+                UpdateProfileInfoBar();
+                return true;
+            }
+            else
+            {
+                Debug.Log("Last Lession Not Found!");
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static void UpdateProfileInfoBar()
+    {
+        TextMeshProUGUI infoBar = GameObject.FindGameObjectWithTag("TMPLoadedProfileInfoBar").GetComponent<TextMeshProUGUI>();
+        if (AppController.instance.currentPlayer != null)
+            infoBar.text = AppController.instance.currentPlayer.PlayerID.ToString() + " - " + AppController.instance.currentPlayer.PlayerName + ". Loaded!";
+        else
+            infoBar.text = "NOT A PROFILE FOUND";
+
+        Debug.Log("ProfileInfo Updated !");
     }
 }

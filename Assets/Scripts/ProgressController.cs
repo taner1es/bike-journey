@@ -24,7 +24,7 @@ public static class ProgressController
         }
         else
         {
-            Debug.LogError("Player List Not Found !");
+            Debug.Log("Player List Not Found !");
             return false;
         }
     }
@@ -109,5 +109,11 @@ public static class ProgressController
             infoBar.text = "NOT A PROFILE FOUND";
 
         Debug.Log("ProfileInfo Updated !");
+    }
+
+    public static string GetPlayerDestination(Player player)
+    {
+
+        return "";
     }
 }

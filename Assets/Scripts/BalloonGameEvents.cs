@@ -86,10 +86,6 @@ public class BalloonGameEvents : MonoBehaviour
             if (item.inflated)
                 i++;
         }
-        Debugging.SetDebugText(
-            " Ballons: " + i
-            + "\n AppState: " + AppController.instance.appState.ToString() +
-            "\n Next.Dest.: " + AppController.instance.nextDestination.ToString());
     }
 
     //initialize all buttons for specific destination

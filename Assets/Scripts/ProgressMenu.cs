@@ -98,26 +98,32 @@ public class ProgressMenu : MonoBehaviour
         text = "ID: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerID.ToString() + "</color>";
         text += "\nName: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerName + "</color>";
         text += "\nLearned Words:\n\n";
-        text += "<color=\"red\">";
+        text += "<color=\"yellow\"><align=\"center\">";
         if (AppController.instance.currentPlayer.LearnedItems != null && AppController.instance.currentPlayer.LearnedItems.Count > 0)
         {
             foreach (Item iterator in AppController.instance.currentPlayer.LearnedItems)
             {
                 text += iterator.itemName + "\n";
             }
-            text += "\n<size=70%>Amount of Learned Words: " + AppController.instance.currentPlayer.LearnedItems.Count;
+            text += "\n<size=90%>" + AppController.instance.currentPlayer.LearnedItems.Count + " words have learned.";
         }
         else
         {
             text += "<size=90%>No Words Have Learned Yet. You Are Ready to Learn New Words, Let's Begin..";
         }
-        text += "</color>";
+        text += "</align></color>";
         progressInfoTMP.text = text;
     }
 
     public void OnLoadButtonClicked()
     {
         LoadPlayerList();
+    }
+
+    private void OnEnable()
+    {
+        LoadPlayerList();
+        ShowProgressInfoForCurrentPlayer();
     }
 
     public void OnCreateButtonClicked()

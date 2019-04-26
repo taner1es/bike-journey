@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour
     //Play Button event on Start Menu Screen
     public void OnGoButtonClicked()
     {
-        if(AppController.instance.currentPlayer != null)
+        if(AppController.instance.currentPlayer != null && AppController.instance.allPlayerProgressData.playersList.Count > 0)
             AppController.instance.SetStage(ApplicationStates.StoryMap);
         else
         {
@@ -44,5 +44,4 @@ public class MainMenu : MonoBehaviour
             Debug.Log("No Characted Found - New Character Created and Saved Automatically.");
         }
     }
-
 }

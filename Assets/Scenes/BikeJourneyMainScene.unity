@@ -1857,7 +1857,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mute: 0
-  nextDestination: 0
   allPlayerProgressData:
     idCounterSaved: 0
     lastSessionPlayerId: 0
@@ -3273,7 +3272,7 @@ GameObject:
   - component: {fileID: 1023216029}
   - component: {fileID: 1023216028}
   m_Layer: 5
-  m_Name: TextMeshPro Text
+  m_Name: TextMeshPro Text - progresspercentage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3320,15 +3319,16 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: '%25 Finished (250 of 1000 words have learned)'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 87ac78fed24b10a4089ae6596f086fe9, type: 2}
+  m_sharedMaterial: {fileID: 21965960307476444, guid: 87ac78fed24b10a4089ae6596f086fe9,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278245375
+  m_fontColor: {r: 1, g: 0.8448516, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3346,8 +3346,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 78.57
+  m_fontSizeBase: 78.57
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5078,6 +5078,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b7a4fb908fcd041b752fb059069b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textMeshProProgressBar: {fileID: 1023216028}
+  progressBarFiller: {fileID: 2046376345}
 --- !u!1 &1473357029
 GameObject:
   m_ObjectHideFlags: 0
@@ -7861,7 +7863,7 @@ GameObject:
   - component: {fileID: 2046376347}
   - component: {fileID: 2046376346}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image - Filler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7876,15 +7878,15 @@ RectTransform:
   m_GameObject: {fileID: 2046376344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 25, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1566710984}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.23644163, y: 1}
-  m_AnchoredPosition: {x: -0.00048828125, y: 0}
-  m_SizeDelta: {x: -0.70000076, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0.00024414062, y: 0}
+  m_SizeDelta: {x: 15.635, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2046376346
 MonoBehaviour:
@@ -7899,7 +7901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.6397865, b: 0.735849, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5294118}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

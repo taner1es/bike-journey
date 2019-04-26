@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class ItemData
@@ -42,20 +43,56 @@ public class Player
 {
     int playerID;
     string playerName;
+    string destination;
+    float progressPercentage;
     List<Item> learnedItems;
 
     public Player(string newName)
     {
+        progressPercentage = 0;
+        destination = "School";
         playerID = PlayerProgress.idCounter;
-        if(newName == "no-name")
+        if (newName == "no-name")
             playerName = "Player_" + playerID.ToString();
+        else
+            playerName = newName;
         learnedItems = new List<Item>();
 
         PlayerProgress.idCounter++;
     }
 
+    public void CalculateProgress()
+    {
+        int countedItemsAll = AppController.instance.dataController.allItemData.Length;
+        int countedItemsLearned = learnedItems.Count;
+
+        progressPercentage = 100f / countedItemsAll * countedItemsLearned;
+
+        Debug.Log("calculated progressPercentage = " + progressPercentage);
+    }
+
+    public void FindDestination()
+    {
+        Item[] allItems = AppController.instance.dataController.allItemData;
+
+        foreach(Item learnedItem in learnedItems)
+        {
+            foreach(Item itemToCheck in allItems)
+            {
+                if(learnedItem.itemName != itemToCheck.itemName && string.Compare(destination,itemToCheck.itemDestination) != 0)
+                {
+                    destination = itemToCheck.itemDestination;
+                    Debug.Log("destination changed to : " + destination);
+                    return;
+                }
+            }
+        }
+    }
+
     public int PlayerID { get => playerID;}
     public string PlayerName { get => playerName; set => playerName = value; }
     public List<Item> LearnedItems { get => learnedItems; set => learnedItems = value; }
+    public float ProgressPercentage { get => progressPercentage; private set => progressPercentage = value; }
+    public string Destination { get => destination;private set => destination = value; }
 }
 

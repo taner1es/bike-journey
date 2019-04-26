@@ -93,6 +93,9 @@ public class MatchingGameEvents : MonoBehaviour
     //matching game ends
     private void End()
     {
+        AppController.instance.currentPlayer.FindDestination();
+        AppController.instance.currentPlayer.CalculateProgress();
+
         ProgressController.SaveProgress();
         AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
     }

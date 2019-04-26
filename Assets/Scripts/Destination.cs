@@ -10,15 +10,20 @@ public class Destination
 
     public Destination(DestinationNames destinationToLoad)
     {
-        AppController.instance.dataController = new DataController();
-        AppController.instance.dataController.LoadGameData();
-
         destinationName = destinationToLoad;
-        
+
+        int i = 0;
+
         foreach(Item item in AppController.instance.dataController.allItemData)
         {
             if (item.itemDestination == destinationName.ToString())
+            {
                 items.Add(item);
+                i++;
+                if (i == 5)
+                    break;
+            }
+
         }
     }
 }

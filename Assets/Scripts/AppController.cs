@@ -10,8 +10,6 @@ public class AppController : MonoBehaviour
 
     public ApplicationStates appState { get; set; }
 
-    public DestinationNames nextDestination;
-
     public PlayerProgress allPlayerProgressData; 
     public Player currentPlayer;
 
@@ -50,6 +48,10 @@ public class AppController : MonoBehaviour
 
         //sets active screen to welcome
         SetStage(ApplicationStates.StartMenu);
+
+        //load game data from JSON
+        AppController.instance.dataController = new DataController();
+        AppController.instance.dataController.LoadGameData();
 
         //tries to load saved game data if any exists from previous session(s)
         ProgressController.LoadLastSession();

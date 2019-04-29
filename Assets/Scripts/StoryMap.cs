@@ -12,6 +12,13 @@ public class StoryMap : MonoBehaviour
 
     private void OnEnable()
     {
+        ApplyProgress();
+    }
+
+    private void ApplyProgress()
+    {
+        AppController.instance.currentPlayer.CalculateProgress();
+
         textMeshProProgressBar.text = "%" + AppController.instance.currentPlayer.ProgressPercentage + " Finished ("
             + AppController.instance.currentPlayer.LearnedItems.Count.ToString() + " of "
             + AppController.instance.dataController.allItemData.Length.ToString() + " words have learned)";
@@ -26,16 +33,16 @@ public class StoryMap : MonoBehaviour
 
     public void OnContinueButtonClicked()
     {
-        DestinationNames dest;
-        if(Enum.TryParse<DestinationNames>(AppController.instance.currentPlayer.Destination, true, out dest))
+        AppController.instance.currentPlayer.GoDest();
+
+        if (AppController.instance.videoPlayer.clip != null)
         {
-            AppController.instance.goDestination = new Destination(dest);
             AppController.instance.PrepareVideoClip();
             AppController.instance.SetStage(ApplicationStates.VideoSection);
         }
         else
         {
-            Debug.LogError("Destination not found : " + dest.ToString(), this);
+            AppController.instance.SetStage(ApplicationStates.BalloonGame);
         }
     }
 }

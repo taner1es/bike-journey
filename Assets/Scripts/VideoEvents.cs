@@ -28,13 +28,13 @@ public class VideoEvents : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("videoPlayer.isPrepared : " + videoPlayer.isPrepared.ToString());
+        //Debug.Log("videoPlayer.isPrepared : " + videoPlayer.isPrepared.ToString());
         if (!videoPlayer.isPlaying && videoPlayer.isPrepared && !fired)
         {
             videoPlayer.Play();
             fired = true;
         }
-        Debug.Log(videoPlayer.frame.ToString() + " , " + videoPlayer.frameCount.ToString());
+        //Debug.Log(videoPlayer.frame.ToString() + " , " + videoPlayer.frameCount.ToString());
         if((ulong)videoPlayer.frame == videoPlayer.frameCount)
         {
             NextStage();

@@ -53,6 +53,7 @@ public class MatchingGameEvents : MonoBehaviour
     private bool heldIcon;
     private bool heldStandArea;
     private bool heldStandIcon;
+    private bool endCalled;
     private Collider2D heldCollider;
 
     private int firstIndex;
@@ -71,6 +72,7 @@ public class MatchingGameEvents : MonoBehaviour
         heldIcon = false;
         heldStandArea = false;
         heldStandIcon = false;
+        endCalled = false;
 
     }
 
@@ -78,7 +80,6 @@ public class MatchingGameEvents : MonoBehaviour
     {
         SlideEvents();
         CheckForGameFinished();
-        Debugger();
     }
 
     //checks  for all items matched
@@ -93,21 +94,12 @@ public class MatchingGameEvents : MonoBehaviour
     //matching game ends
     private void End()
     {
-        AppController.instance.currentPlayer.FindDestination();
-        AppController.instance.currentPlayer.CalculateProgress();
-
-        ProgressController.SaveProgress();
-        AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
-    }
-
-    //manage debug messages which is needed in runtime debugging
-    private void Debugger()
-    {
-        Debugging.SetDebugText(
-            " heldIcon: " + heldIcon.ToString() +
-            "\n heldStand: " + heldStand.ToString() +
-            "\n heldStandArea: " + heldStandArea +
-            "\n heldStandIcon: " + heldStandIcon);
+        if (!endCalled)
+        {
+            endCalled = true;
+            ProgressController.SaveProgress();
+            AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
+        }
     }
 
     /*manages slide handler priority,

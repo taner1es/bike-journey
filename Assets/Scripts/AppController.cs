@@ -72,7 +72,6 @@ public class AppController : MonoBehaviour
     }
     public void SetStage(ApplicationStates stageToSet)
     {
-        //goDestination = new Destination(DestinationNames.School);
         foreach(GameObject iterator in stages)
         {
             if (iterator.name != stageToSet.ToString())
@@ -89,19 +88,29 @@ public class AppController : MonoBehaviour
 
     public void PrepareVideoClip()
     {
-        string destination = goDestination.destinationName.ToString();
-        
+        string destination = currentPlayer.Destination;
+
+
         switch (destination)
         {
             case "School":
                 videoPlayer.clip = videoClips[0];
                 break;
-            case "Camp":
+            case "Playground":
                 videoPlayer.clip = videoClips[1];
                 break;
+            case "Beach":
+                videoPlayer.clip = videoClips[2];
+                break;
+            case "Camp":
+                videoPlayer.clip = videoClips[3];
+                break;
+            case "Home":
+                videoPlayer.clip = videoClips[4];
+                break;
             default:
-                videoPlayer.clip = videoClips[0];
-            break;
+                videoPlayer.clip = null;
+                break;
         }
 
         videoPlayer.playOnAwake = false;

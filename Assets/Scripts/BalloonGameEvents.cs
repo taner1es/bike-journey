@@ -50,9 +50,6 @@ public class BalloonGameEvents : MonoBehaviour
     float inputInterval;
     bool clickedOnStand;
 
-    //temp debug object
-    public GameObject debugLog;
-
     private void OnEnable()
     {
         balloons = new List<BalloonValues>();
@@ -72,20 +69,6 @@ public class BalloonGameEvents : MonoBehaviour
         if (balloons != null)
             if(balloons.Count > 0)
                 BalloonMovement();
-
-
-
-        Debugger();
-    }
-
-    private void Debugger()
-    {
-        int i = 0;
-        foreach (BalloonValues item in balloons)
-        {
-            if (item.inflated)
-                i++;
-        }
     }
 
     //initialize all buttons for specific destination

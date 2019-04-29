@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using AppEnums;
+using System;
 
 [System.Serializable]
 public class ItemData
@@ -10,16 +12,9 @@ public class ItemData
 [System.Serializable]
 public class Item
 {
-    private int itemID;
+    public int itemID;
     public string itemName;
     public string itemDestination;
-
-    public Item(string newItemDestination, int newID, string newName)
-    {
-        itemID = newID;
-        itemName = newName;
-        itemDestination = newItemDestination;
-    }
 }
 
 [System.Serializable]
@@ -46,17 +41,19 @@ public class Player
     string destination;
     float progressPercentage;
     List<Item> learnedItems;
+    List<string> completedDestinations;
 
     public Player(string newName)
     {
         progressPercentage = 0;
-        destination = "School";
+        destination = DestinationNames.School.ToString();
         playerID = PlayerProgress.idCounter;
         if (newName == "no-name")
             playerName = "Player_" + playerID.ToString();
         else
             playerName = newName;
         learnedItems = new List<Item>();
+        completedDestinations = new List<string>();
 
         PlayerProgress.idCounter++;
     }
@@ -72,27 +69,49 @@ public class Player
     }
 
     public void FindDestination()
-    {
+    {        
         Item[] allItems = AppController.instance.dataController.allItemData;
 
-        foreach(Item learnedItem in learnedItems)
+        if(completedDestinations != null)
         {
-            foreach(Item itemToCheck in allItems)
+            foreach (var iterator in Enum.GetValues(typeof(DestinationNames)))
             {
-                if(learnedItem.itemName != itemToCheck.itemName && string.Compare(destination,itemToCheck.itemDestination) != 0)
+                //check for the current item destination already completed before
+                if (!completedDestinations.Exists(e => e.EndsWith(iterator.ToString())))
                 {
-                    destination = itemToCheck.itemDestination;
+                    destination = iterator.ToString();
                     Debug.Log("destination changed to : " + destination);
                     return;
                 }
             }
         }
+        else
+        {
+            destination = DestinationNames.School.ToString();
+            Debug.Log("CompletedDestination list is empty. destination has set to : " + destination);
+        }
+    }
+
+    public void GoDest()
+    {
+        DestinationNames dest;
+        if (Enum.TryParse<DestinationNames>(AppController.instance.currentPlayer.Destination, true, out dest))
+        {
+            AppController.instance.goDestination = new Destination(dest);
+            if (AppController.instance.goDestination.fillItemListAgain)
+                GoDest();
+        }
+        else
+        {
+            Debug.LogError("Destination not found : " + dest.ToString());
+        }
     }
 
     public int PlayerID { get => playerID;}
     public string PlayerName { get => playerName; set => playerName = value; }
-    public List<Item> LearnedItems { get => learnedItems; set => learnedItems = value; }
     public float ProgressPercentage { get => progressPercentage; private set => progressPercentage = value; }
     public string Destination { get => destination;private set => destination = value; }
+    public List<Item> LearnedItems { get => learnedItems; set => learnedItems = value; }
+    public List<string> CompletedDestinations { get => completedDestinations; set => completedDestinations = value; }
 }
 

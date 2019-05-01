@@ -115,11 +115,6 @@ public class ProgressMenu : MonoBehaviour
         progressInfoTMP.text = text;
     }
 
-    public void OnLoadButtonClicked()
-    {
-        LoadPlayerList();
-    }
-
     private void OnEnable()
     {
         LoadPlayerList();

@@ -9,10 +9,19 @@ public class Destination
     public DestinationNames destinationName;
     public List<Item> items;
     public bool fillItemListAgain;
+    public bool noMoreDestination;
 
     public Destination(DestinationNames destinationToLoad)
     {
-        FillItemList(destinationToLoad);
+        if (AppController.instance.currentPlayer.LearnedItems.Count == AppController.instance.dataController.allItemData.Length)
+        {
+            noMoreDestination = true;
+        }
+        else
+        {
+            noMoreDestination = false;
+            FillItemList(destinationToLoad);
+        }
     }
 
     private void FillItemList(DestinationNames destinationToLoad)

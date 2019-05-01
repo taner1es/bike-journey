@@ -15,7 +15,6 @@ public class ProgressMenu : MonoBehaviour
 
     public static Player clickedPlayer;
 
-
     public void OnPlayerSelectButtonClicked()
     {
         GameObject button = EventSystem.current.currentSelectedGameObject;
@@ -83,7 +82,12 @@ public class ProgressMenu : MonoBehaviour
     {
         if (switchTo != null)
         {
+            GameObject.Find(switchTo.PlayerID.ToString() + "(Clone)").GetComponent<Image>().color = new Color(169,230,0,255);
+            if(AppController.instance.currentPlayer != null)
+                GameObject.Find(AppController.instance.currentPlayer.PlayerID.ToString() + "(Clone)").GetComponent<Image>().color = new Color(245,230,0,255);
+
             AppController.instance.currentPlayer = switchTo;
+            clickedPlayer = switchTo;
             ProgressController.UpdateProfileInfoBar();
             ProgressController.SaveProgress();
             Debug.Log("currentPlayer : " + AppController.instance.currentPlayer.PlayerName);
@@ -98,25 +102,35 @@ public class ProgressMenu : MonoBehaviour
 
     private void ShowProgressInfoForCurrentPlayer()
     {
-        string text;
+        string text = "";
 
-        text = "ID: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerID.ToString() + "</color>";
-        text += "\nName: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerName + "</color>";
-        text += "\nLearned Words:\n\n";
-        text += "<color=\"yellow\"><align=\"center\">";
-        if (AppController.instance.currentPlayer.LearnedItems != null && AppController.instance.currentPlayer.LearnedItems.Count > 0)
+        if(AppController.instance.currentPlayer != null)
         {
-            foreach (Item iterator in AppController.instance.currentPlayer.LearnedItems)
+            text = "ID: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerID.ToString() + "</color>";
+            text += "\nName: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerName + "</color>";
+            text += "\nLearned Words:\n\n";
+            text += "<color=\"yellow\"><align=\"center\">";
+
+            if (AppController.instance.currentPlayer.LearnedItems != null && AppController.instance.currentPlayer.LearnedItems.Count > 0)
             {
-                text += iterator.itemName + "\n";
+
+                foreach (Item iterator in AppController.instance.currentPlayer.LearnedItems)
+                {
+                    text += iterator.itemName + "\n";
+                }
+                text += "\n<size=90%>" + AppController.instance.currentPlayer.LearnedItems.Count + " words have learned.";
             }
-            text += "\n<size=90%>" + AppController.instance.currentPlayer.LearnedItems.Count + " words have learned.";
+            else
+            {
+                text += "<size=90%>No Words Have Learned Yet. You Are Ready to Learn New Words, Let's Begin..";
+            }
+            text += "</align></color>";
         }
         else
         {
-            text += "<size=90%>No Words Have Learned Yet. You Are Ready to Learn New Words, Let's Begin..";
+            text = "No Character Found, You Can Create One.";
         }
-        text += "</align></color>";
+
         progressInfoTMP.text = text;
     }
 

@@ -76,9 +76,14 @@ public class ProgressMenu : MonoBehaviour
 
     public void OnSwitchButtonClicked()
     {
-        if(clickedPlayer != null)
+        SwitchCharacter(clickedPlayer);
+    }
+
+    private void SwitchCharacter(Player switchTo)
+    {
+        if (switchTo != null)
         {
-            AppController.instance.currentPlayer = clickedPlayer;
+            AppController.instance.currentPlayer = switchTo;
             ProgressController.UpdateProfileInfoBar();
             ProgressController.SaveProgress();
             Debug.Log("currentPlayer : " + AppController.instance.currentPlayer.PlayerName);
@@ -131,6 +136,8 @@ public class ProgressMenu : MonoBehaviour
         LoadPlayerList();
         if(GameObject.FindGameObjectWithTag("PlayerListScrollBar") != null)
             GameObject.FindGameObjectWithTag("PlayerListScrollBar").GetComponent<Scrollbar>().value = 0f;
+
+        SwitchCharacter(AppController.instance.allPlayerProgressData.playersList[AppController.instance.allPlayerProgressData.playersList.Count - 1]);
     }
 
     public void OnClosePanelButtonClicked()

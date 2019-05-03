@@ -29,6 +29,7 @@ public class BalloonGameEvents : MonoBehaviour
                 balloonInstance.GetComponent<Renderer>().material.color = UnityEngine.Random.ColorHSV(0f,1f,1f,1f,1f,1f,0.4f,0.7f);
                 balloonInstance.transform.GetChild(0).GetComponent<TextMeshPro>().text = item.itemName;
                 inflated = true;
+                SoundManager.instance.PronounceItemName(item);
             }
         }
     }
@@ -55,7 +56,6 @@ public class BalloonGameEvents : MonoBehaviour
         balloons = new List<BalloonValues>();
         clickedOnStand = false;
         CreateButtons();
-
     }
 
     void FixedUpdate()

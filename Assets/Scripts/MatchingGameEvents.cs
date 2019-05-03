@@ -28,7 +28,7 @@ public class MatchingGameEvents : MonoBehaviour
             }
             else
             {
-                string spritePath = "Textures/" + item.itemName;
+                string spritePath = "Textures/Items/Destinations/" + item.itemDestination + "/"+ item.itemName;
                 var texture = Resources.Load<Texture2D>(spritePath);
                 instance.GetComponent<SpriteRenderer>().sprite = Resources.Load(spritePath, typeof(Sprite)) as Sprite;
             }

@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 public class ProgressMenu : MonoBehaviour
 {
+    public GameObject prefabButtonCurrentPlayer;
     public GameObject prefabPlayerSelectButton;
     public GameObject prefabPlayerList;
     public GameObject deleteApplyPanel;
@@ -37,35 +38,33 @@ public class ProgressMenu : MonoBehaviour
 
     public void OnDeleteButtonClicked()
     {
-        if(clickedPlayer != null)
+        if(AppController.instance.currentPlayer != null)
         {
-            if (AppController.instance.allPlayerProgressData.playersList.Contains(clickedPlayer))
+            if (AppController.instance.allPlayerProgressData.playersList.Exists(e => e.PlayerID == AppController.instance.currentPlayer.PlayerID))
             {
                 deleteApplyPanel.SetActive(true);
-                GameObject.FindGameObjectWithTag("AskForSure").GetComponent<TextMeshProUGUI>().text = "Are you sure to delete all data for <color=\"blue\">" + clickedPlayer.PlayerName + "</color>";
-            }
-            else
-            {
-                foreach (Player iterator in AppController.instance.allPlayerProgressData.playersList)
-                {
-                    Debug.Log(iterator.PlayerName + " vs " + clickedPlayer.PlayerName);
-                }
+                GameObject.FindGameObjectWithTag("AskForSure").GetComponent<TextMeshProUGUI>().text = "Are you sure to delete all data for <color=\"blue\">" + AppController.instance.currentPlayer.PlayerName + "</color>";
             }
         }
     }
 
     public void OnYesDeleteButtonClicked()
     {
-        if (AppController.instance.allPlayerProgressData.playersList.Remove(clickedPlayer))
-            Debug.Log(clickedPlayer.PlayerName + " - Successfully Deleted");
+        Player plyr = AppController.instance.allPlayerProgressData.playersList.Find(e => e.PlayerID == AppController.instance.currentPlayer.PlayerID);
+        //int index = AppController.instance.allPlayerProgressData.playersList.FindIndex(e => e.PlayerID == AppController.instance.currentPlayer.PlayerID);
+        if (AppController.instance.allPlayerProgressData.playersList.Remove(plyr))
+            Debug.Log(AppController.instance.currentPlayer.PlayerName + " - Successfully Deleted");
         else
-            Debug.Log(clickedPlayer.PlayerName + " - Can Not Be Removed");
+            Debug.Log(AppController.instance.currentPlayer.PlayerName + " - Can Not Be Removed");
 
         deleteApplyPanel.SetActive(false);
 
         ProgressController.SaveProgress();
-        LoadPlayerList();
+
+        if (AppController.instance.allPlayerProgressData.playersList.Count > 0)
+            AppController.instance.currentPlayer = AppController.instance.allPlayerProgressData.playersList[0];
         clickedPlayer = null;
+        LoadPlayerList();
     }
 
     public void OnNoDeleteButtonClicked()
@@ -82,10 +81,6 @@ public class ProgressMenu : MonoBehaviour
     {
         if (switchTo != null)
         {
-            GameObject.Find(switchTo.PlayerID.ToString() + "(Clone)").GetComponent<Image>().color = new Color(169,230,0,255);
-            if(AppController.instance.currentPlayer != null)
-                GameObject.Find(AppController.instance.currentPlayer.PlayerID.ToString() + "(Clone)").GetComponent<Image>().color = new Color(245,230,0,255);
-
             AppController.instance.currentPlayer = switchTo;
             clickedPlayer = switchTo;
             ProgressController.UpdateProfileInfoBar();
@@ -97,7 +92,7 @@ public class ProgressMenu : MonoBehaviour
             Debug.Log("there is no clicked player, please click first.");
         }
 
-        ShowProgressInfoForCurrentPlayer();
+        LoadPlayerList();
     }
 
     private void ShowProgressInfoForCurrentPlayer()
@@ -137,17 +132,15 @@ public class ProgressMenu : MonoBehaviour
     private void OnEnable()
     {
         LoadPlayerList();
-        ShowProgressInfoForCurrentPlayer();
     }
 
     public void OnCreateButtonClicked()
     {
-        LoadPlayerList();
         int id = PlayerProgress.idCounter;
         string name = "Player_" + id;
         AppController.instance.allPlayerProgressData.playersList.Add(new Player(name));
         ProgressController.SaveProgress();
-        LoadPlayerList();
+        
         if(GameObject.FindGameObjectWithTag("PlayerListScrollBar") != null)
             GameObject.FindGameObjectWithTag("PlayerListScrollBar").GetComponent<Scrollbar>().value = 0f;
 
@@ -177,11 +170,16 @@ public class ProgressMenu : MonoBehaviour
 
         if (loaded && AppController.instance.allPlayerProgressData.playersList.Count > 0)
         {
-            GameObject enabledButton = prefabPlayerSelectButton;
+            GameObject enabledButton;
 
             //reload all again
             foreach (Player iterator in AppController.instance.allPlayerProgressData.playersList)
             {
+                if (iterator.PlayerID == AppController.instance.currentPlayer.PlayerID)
+                    enabledButton = prefabButtonCurrentPlayer;
+                else
+                    enabledButton = prefabPlayerSelectButton;
+
                 enabledButton.GetComponentInChildren<TextMeshProUGUI>().text = iterator.PlayerName;
                 enabledButton.GetComponent<Button>().interactable = true;
                 enabledButton.name = iterator.PlayerID.ToString();
@@ -195,6 +193,8 @@ public class ProgressMenu : MonoBehaviour
             disabledButton.GetComponentInChildren<TextMeshProUGUI>().text = "Player List Not Found";
             Instantiate(disabledButton, prefabPlayerList.transform);
         }
+
+        ShowProgressInfoForCurrentPlayer();
     }
 
     private void DestroyListedPlayers()

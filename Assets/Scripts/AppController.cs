@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using AppEnums;
-using UnityEngine.EventSystems;
 using UnityEngine.Video;
 
 public class AppController : MonoBehaviour
@@ -37,7 +36,7 @@ public class AppController : MonoBehaviour
         DontDestroyOnLoad(instance);
 
         //set null current player on game awaked
-        currentPlayer = null;
+        AppController.instance.currentPlayer = null;
 
         //save file path
         Debug.Log(Application.persistentDataPath);
@@ -89,7 +88,6 @@ public class AppController : MonoBehaviour
     public void PrepareVideoClip()
     {
         string destination = currentPlayer.Destination;
-
 
         switch (destination)
         {

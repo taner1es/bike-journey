@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class ProgressController
 {
-    private static string progressFilePath = Application.persistentDataPath + "/gameprogress.save";
+    public static string progressFilePath = Application.persistentDataPath + "/gameprogress.save";
 
     public static bool LoadPlayerList()
     {

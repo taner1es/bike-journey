@@ -362,6 +362,7 @@ public class MatchingGameEvents : MonoBehaviour
 
                     //add correctly matched item to player progress data list
                     AppController.instance.currentPlayer.LearnedItems.Add(iterator.item);
+                    SoundManager.instance.PronounceItemName(iterator.item);
                     return true;
                 }
                 i++;

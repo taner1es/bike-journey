@@ -9,6 +9,7 @@ public class StoryMap : MonoBehaviour
 {
     public TextMeshProUGUI textMeshProProgressBar;
     public Transform progressBarFiller;
+    public GameObject gameFinishedPanel;
 
     private void OnEnable()
     {
@@ -24,6 +25,15 @@ public class StoryMap : MonoBehaviour
             + AppController.instance.dataController.allItemData.Length.ToString() + " words have learned)";
 
         progressBarFiller.localScale = new Vector3(AppController.instance.currentPlayer.ProgressPercentage, 1, 1);
+
+        if(AppController.instance.currentPlayer.ProgressPercentage >= 100)
+        {
+            gameFinishedPanel.SetActive(true);
+        }
+        else
+        {
+            gameFinishedPanel.SetActive(false);
+        }
     }
 
     public void OnBackButtonClicked()
@@ -44,5 +54,18 @@ public class StoryMap : MonoBehaviour
         {
             AppController.instance.SetStage(ApplicationStates.BalloonGame);
         }
+    }
+
+    public void OnPlayAgainClicked()
+    {
+        ProgressController.SaveProgress();
+        ProgressController.CreateNewPlayer();
+        gameFinishedPanel.SetActive(false);
+        AppController.instance.SetStage(ApplicationStates.StartMenu);
+    }
+
+    public void OnQuitButtonClicked()
+    {
+        Application.Quit();
     }
 }

@@ -25,11 +25,10 @@ public class PlayerProgress
     public int lastSessionPlayerId;
     public List<Player> playersList;
 
-    public PlayerProgress(string name)
+    public PlayerProgress()
     {
         playersList = new List<Player>();
         idCounter = 0;
-        playersList.Add(new Player(name));
     }
 }
 

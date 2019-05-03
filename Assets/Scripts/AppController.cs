@@ -37,6 +37,7 @@ public class AppController : MonoBehaviour
 
         //set null current player on game awaked
         AppController.instance.currentPlayer = null;
+        AppController.instance.allPlayerProgressData = null;
 
         //save file path
         Debug.Log(Application.persistentDataPath);

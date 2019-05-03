@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 public class MainMenu : MonoBehaviour
 {
     public GameObject progressSection;
-    public GameObject TMPLoadedProfile;
 
     private void OnEnable()
     {
@@ -38,7 +37,7 @@ public class MainMenu : MonoBehaviour
         else
         {
             ProgressController.CreateNewPlayer();
-            AppController.instance.currentPlayer = AppController.instance.allPlayerProgressData.playersList[0];
+
             AppController.instance.SetStage(ApplicationStates.StoryMap);
 
             Debug.Log("No Characted Found - New Character Created and Saved Automatically.");

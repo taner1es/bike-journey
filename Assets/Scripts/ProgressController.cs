@@ -71,11 +71,70 @@ public static class ProgressController
         }
     }
 
-    public static void CreateNewPlayer(string name = "no-name")
+    public static void CreateNewPlayerProgress()
     {
-        AppController.instance.allPlayerProgressData = new PlayerProgress(name);
-        Debug.Log("New Player Created");
+        AppController.instance.allPlayerProgressData = new PlayerProgress();
         SaveProgress();
+    }
+    
+    public static void CreateNewPlayer()
+    {
+        int id = PlayerProgress.idCounter;
+        string name = "Player_" + id;
+
+        if (AppController.instance.allPlayerProgressData == null)
+            CreateNewPlayerProgress();
+
+        AppController.instance.allPlayerProgressData.playersList.Add(new Player(name));
+
+        SwitchCharacter(AppController.instance.allPlayerProgressData.playersList[AppController.instance.allPlayerProgressData.playersList.Count - 1]);
+        SaveProgress();
+
+        Debug.Log("New Character Created, Switched and Saved.");
+    }
+
+    public static bool DeleteCurrentCharacter()
+    {
+        if(AppController.instance.currentPlayer != null)
+        {
+            Player plyr = AppController.instance.allPlayerProgressData.playersList.Find(e => e.PlayerID == AppController.instance.currentPlayer.PlayerID);
+            if (AppController.instance.allPlayerProgressData.playersList.Remove(plyr))
+            {
+                Debug.Log(AppController.instance.currentPlayer.PlayerName + " - Successfully Deleted");
+                if (AppController.instance.allPlayerProgressData.playersList.Count > 0)
+                    AppController.instance.currentPlayer = AppController.instance.allPlayerProgressData.playersList[0];
+
+                SaveProgress();
+                return true;
+            }
+
+            else
+            {
+                Debug.LogError(AppController.instance.currentPlayer.PlayerName + " - Can Not Be Removed");
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+            
+
+    }
+
+    public static void SwitchCharacter(Player clickedPlayer)
+    {
+        if (clickedPlayer != null)
+        {
+            AppController.instance.currentPlayer = clickedPlayer;
+            UpdateProfileInfoBar();
+            SaveProgress();
+            Debug.Log("currentPlayer : " + AppController.instance.currentPlayer.PlayerName);
+        }
+        else
+        {
+            Debug.Log("there is no clicked player, please click first.");
+        }
     }
 
     public static bool LoadLastSession()
@@ -102,13 +161,17 @@ public static class ProgressController
 
     public static void UpdateProfileInfoBar()
     {
-        TextMeshProUGUI infoBar = GameObject.FindGameObjectWithTag("TMPLoadedProfileInfoBar").GetComponent<TextMeshProUGUI>();
-        if (AppController.instance.currentPlayer != null)
-            infoBar.text = AppController.instance.currentPlayer.PlayerID.ToString() + " - " + AppController.instance.currentPlayer.PlayerName + ". Loaded!";
-        else
-            infoBar.text = "NOT A PROFILE FOUND";
+        GameObject infoBar;
+        if (infoBar = GameObject.FindGameObjectWithTag("TMPLoadedProfileInfoBar"))
+        {
+            TextMeshProUGUI infoBarTMP = infoBar.GetComponent<TextMeshProUGUI>();
+            if (AppController.instance.currentPlayer != null)
+                infoBarTMP.text = AppController.instance.currentPlayer.PlayerID.ToString() + " - " + AppController.instance.currentPlayer.PlayerName + ". Loaded!";
+            else
+                infoBarTMP.text = "NOT A PROFILE FOUND";
 
-        Debug.Log("ProfileInfo Updated !");
+            Debug.Log("ProfileInfo Updated !");
+        }
     }
 
     public static string GetPlayerDestination(Player player)

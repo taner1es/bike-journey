@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
@@ -16,6 +13,13 @@ public class ProgressMenu : MonoBehaviour
 
     public static Player clickedPlayer;
 
+    private void OnEnable()
+    {
+        clickedPlayer = null;
+        LoadPlayerList();
+    }
+
+    //Button Actions
     public void OnPlayerSelectButtonClicked()
     {
         GameObject button = EventSystem.current.currentSelectedGameObject;
@@ -50,20 +54,12 @@ public class ProgressMenu : MonoBehaviour
 
     public void OnYesDeleteButtonClicked()
     {
-        Player plyr = AppController.instance.allPlayerProgressData.playersList.Find(e => e.PlayerID == AppController.instance.currentPlayer.PlayerID);
-        //int index = AppController.instance.allPlayerProgressData.playersList.FindIndex(e => e.PlayerID == AppController.instance.currentPlayer.PlayerID);
-        if (AppController.instance.allPlayerProgressData.playersList.Remove(plyr))
-            Debug.Log(AppController.instance.currentPlayer.PlayerName + " - Successfully Deleted");
-        else
-            Debug.Log(AppController.instance.currentPlayer.PlayerName + " - Can Not Be Removed");
+        if (ProgressController.DeleteCurrentCharacter())
+        {
+            deleteApplyPanel.SetActive(false);
+            clickedPlayer = null;
+        }
 
-        deleteApplyPanel.SetActive(false);
-
-        ProgressController.SaveProgress();
-
-        if (AppController.instance.allPlayerProgressData.playersList.Count > 0)
-            AppController.instance.currentPlayer = AppController.instance.allPlayerProgressData.playersList[0];
-        clickedPlayer = null;
         LoadPlayerList();
     }
 
@@ -74,32 +70,40 @@ public class ProgressMenu : MonoBehaviour
 
     public void OnSwitchButtonClicked()
     {
-        SwitchCharacter(clickedPlayer);
-    }
-
-    private void SwitchCharacter(Player switchTo)
-    {
-        if (switchTo != null)
-        {
-            AppController.instance.currentPlayer = switchTo;
-            clickedPlayer = switchTo;
-            ProgressController.UpdateProfileInfoBar();
-            ProgressController.SaveProgress();
-            Debug.Log("currentPlayer : " + AppController.instance.currentPlayer.PlayerName);
-        }
-        else
-        {
-            Debug.Log("there is no clicked player, please click first.");
-        }
-
+        ProgressController.SwitchCharacter(clickedPlayer);
         LoadPlayerList();
     }
 
+    public void OnClosePanelButtonClicked()
+    {
+        DestroyListedPlayers();
+        clickedPlayer = null;
+        deleteApplyPanel.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
+
+        //enable start menu buttons collisions again
+        foreach(GameObject iterator in GameObject.FindGameObjectsWithTag("StartMenuButton"))
+        {
+            iterator.GetComponent<Collider2D>().enabled = true;
+        }
+    }
+
+    public void OnCreateButtonClicked()
+    {
+        ProgressController.CreateNewPlayer();
+
+        LoadPlayerList();
+
+        if (GameObject.FindGameObjectWithTag("PlayerListScrollBar") != null)
+            GameObject.FindGameObjectWithTag("PlayerListScrollBar").GetComponent<Scrollbar>().value = 0f;
+    }
+
+    //Reusable Actions
     private void ShowProgressInfoForCurrentPlayer()
     {
         string text = "";
 
-        if(AppController.instance.currentPlayer != null)
+        if (AppController.instance.currentPlayer != null)
         {
             text = "ID: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerID.ToString() + "</color>";
             text += "\nName: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerName + "</color>";
@@ -127,38 +131,6 @@ public class ProgressMenu : MonoBehaviour
         }
 
         progressInfoTMP.text = text;
-    }
-
-    private void OnEnable()
-    {
-        LoadPlayerList();
-    }
-
-    public void OnCreateButtonClicked()
-    {
-        int id = PlayerProgress.idCounter;
-        string name = "Player_" + id;
-        AppController.instance.allPlayerProgressData.playersList.Add(new Player(name));
-        ProgressController.SaveProgress();
-        
-        if(GameObject.FindGameObjectWithTag("PlayerListScrollBar") != null)
-            GameObject.FindGameObjectWithTag("PlayerListScrollBar").GetComponent<Scrollbar>().value = 0f;
-
-        SwitchCharacter(AppController.instance.allPlayerProgressData.playersList[AppController.instance.allPlayerProgressData.playersList.Count - 1]);
-    }
-
-    public void OnClosePanelButtonClicked()
-    {
-        DestroyListedPlayers();
-        clickedPlayer = null;
-        deleteApplyPanel.gameObject.SetActive(false);
-        this.gameObject.SetActive(false);
-
-        //enable start menu buttons collisions again
-        foreach(GameObject iterator in GameObject.FindGameObjectsWithTag("StartMenuButton"))
-        {
-            iterator.GetComponent<Collider2D>().enabled = true;
-        }
     }
 
     private void LoadPlayerList()
@@ -204,4 +176,8 @@ public class ProgressMenu : MonoBehaviour
             Destroy(iterator.gameObject);
         }
     }
+
+
+
+    
 }

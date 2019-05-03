@@ -62,6 +62,7 @@ public class StoryMap : MonoBehaviour
         ProgressController.CreateNewPlayer();
         gameFinishedPanel.SetActive(false);
         AppController.instance.SetStage(ApplicationStates.StartMenu);
+        Debug.Log("Restart : Old Character saved as finished, new character created to play from begin.");
     }
 
     public void OnQuitButtonClicked()

@@ -61,7 +61,14 @@ public static class ProgressController
         {
             AppController.instance.allPlayerProgressData.idCounterSaved = PlayerProgress.idCounter;
             if(AppController.instance.currentPlayer != null)
+            {
                 AppController.instance.allPlayerProgressData.lastSessionPlayerId = AppController.instance.currentPlayer.PlayerID;
+
+                //update progress information for current session in playerlist then serialize to binary
+                int index = AppController.instance.allPlayerProgressData.playersList.FindIndex(e => e.PlayerID == AppController.instance.currentPlayer.PlayerID);
+                AppController.instance.allPlayerProgressData.playersList[index] = AppController.instance.currentPlayer;
+            }
+                
 
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Create(progressFilePath);
@@ -122,18 +129,18 @@ public static class ProgressController
 
     }
 
-    public static void SwitchCharacter(Player clickedPlayer)
+    public static void SwitchCharacter(Player playerToSwitch)
     {
-        if (clickedPlayer != null)
+        if (playerToSwitch != null)
         {
-            AppController.instance.currentPlayer = clickedPlayer;
+            AppController.instance.currentPlayer = playerToSwitch;
             UpdateProfileInfoBar();
             SaveProgress();
             Debug.Log("currentPlayer : " + AppController.instance.currentPlayer.PlayerName);
         }
         else
         {
-            Debug.Log("there is no clicked player, please click first.");
+            Debug.Log("Couldn't switched");
         }
     }
 

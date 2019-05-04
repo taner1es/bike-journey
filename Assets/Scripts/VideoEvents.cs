@@ -68,6 +68,7 @@ public class VideoEvents : MonoBehaviour
     }
     void EndReached(VideoPlayer vp)
     {
+        videoPlayer.clip = null;
         Invoke("NextStage", 2f);
     }
     void NextStage()

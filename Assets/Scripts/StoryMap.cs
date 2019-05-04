@@ -67,8 +67,4 @@ public class StoryMap : MonoBehaviour
         Debug.Log("Restart : Old Character saved as finished, new character created to play from begin.");
     }
 
-    public void OnQuitButtonClicked()
-    {
-        Application.Quit();
-    }
 }

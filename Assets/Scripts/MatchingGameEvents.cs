@@ -53,7 +53,6 @@ public class MatchingGameEvents : MonoBehaviour
     private bool heldIcon;
     private bool heldStandArea;
     private bool heldStandIcon;
-    private bool endCalled;
     private Collider2D heldCollider;
 
     private int firstIndex;
@@ -72,8 +71,6 @@ public class MatchingGameEvents : MonoBehaviour
         heldIcon = false;
         heldStandArea = false;
         heldStandIcon = false;
-        endCalled = false;
-
     }
 
     private void FixedUpdate()
@@ -87,19 +84,17 @@ public class MatchingGameEvents : MonoBehaviour
     {
         if(matchingIcons.Count == 0)
         {
-            Invoke("End", 3);
+            StartCoroutine(End(3));
         }
     }
 
-    //matching game ends
-    private void End()
+    //matching game ends in seconds 
+    private IEnumerator End(int inSec)
     {
-        if (!endCalled)
-        {
-            endCalled = true;
-            ProgressController.SaveProgress();
-            AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
-        }
+        yield return new WaitForSeconds(inSec);
+
+        ProgressController.SaveProgress();
+        AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
     }
 
     /*manages slide handler priority,

@@ -23,12 +23,6 @@ public class MainMenu : MonoBehaviour
             progressSection.SetActive(true);
     }
 
-    //Exit Button event on Start Menu Screen
-    public void OnQuitButtonClicked()
-    {
-        Application.Quit();
-    }
-
     //Play Button event on Start Menu Screen
     public void OnGoButtonClicked()
     {

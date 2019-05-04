@@ -64,7 +64,9 @@ public class VideoEvents : MonoBehaviour
 
     public void onButtonSkip()
     {
+        videoPlayer.Stop();
         NextStage();
+        //Invoke("NextStage", 1f);
     }
     void EndReached(VideoPlayer vp)
     {

@@ -12,9 +12,7 @@ public class AppController : MonoBehaviour
     public PlayerProgress allPlayerProgressData; 
     public Player currentPlayer;
 
-    public GameObject[] stages = new GameObject[5];
-    public VideoPlayer videoPlayer;
-    public VideoClip[] videoClips;
+    public GameObject[] stateParents = new GameObject[5];
 
     private string currentAppState;
     public Destination goDestination;
@@ -47,7 +45,7 @@ public class AppController : MonoBehaviour
         cameraWidth = cameraHeight * Camera.main.aspect;
 
         //sets active screen to welcome
-        SetStage(ApplicationStates.StartMenu);
+        SetState(ApplicationStates.StartMenu); 
 
         //load game data from JSON
         AppController.instance.dataController = new DataController();
@@ -70,52 +68,21 @@ public class AppController : MonoBehaviour
             Debug.Log("No currentPlayer Found and progress not saved.");
         }
     }
-    public void SetStage(ApplicationStates stageToSet)
+    public void SetState(ApplicationStates stateToSet)
     {
-        foreach(GameObject iterator in stages)
+        foreach(GameObject iterator in stateParents)
         {
-            if (iterator.name != stageToSet.ToString())
+            if (iterator.name != stateToSet.ToString())
             {
                 iterator.SetActive(false);
             }
             else
             {
                 iterator.SetActive(true);
-                appState = stageToSet;
+                appState = stateToSet;
             }
         }
     }
-
-    public void PrepareVideoClip()
-    {
-        string destination = currentPlayer.Destination;
-
-        switch (destination)
-        {
-            case "School":
-                videoPlayer.clip = videoClips[0];
-                break;
-            case "Playground":
-                videoPlayer.clip = videoClips[1];
-                break;
-            case "Beach":
-                videoPlayer.clip = videoClips[2];
-                break;
-            case "Camp":
-                videoPlayer.clip = videoClips[3];
-                break;
-            case "Home":
-                videoPlayer.clip = videoClips[4];
-                break;
-            default:
-                videoPlayer.clip = null;
-                break;
-        }
-
-        videoPlayer.playOnAwake = false;
-        videoPlayer.Prepare();
-    }
-
 
     public void OnQuitButtonClicked()
     {

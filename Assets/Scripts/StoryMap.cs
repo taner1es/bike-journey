@@ -40,22 +40,13 @@ public class StoryMap : MonoBehaviour
 
     public void OnBackButtonClicked()
     {
-        AppController.instance.SetStage(ApplicationStates.StartMenu);
+        AppController.instance.SetState(ApplicationStates.StartMenu);
     }
 
     public void OnContinueButtonClicked()
     {
-        AppController.instance.currentPlayer.GoDest();
-
-        if (AppController.instance.videoPlayer.clip != null)
-        {
-            AppController.instance.PrepareVideoClip();
-            AppController.instance.SetStage(ApplicationStates.VideoSection);
-        }
-        else
-        {
-            AppController.instance.SetStage(ApplicationStates.BalloonGame);
-        }
+        AppController.instance.currentPlayer.SetGoDest();
+        AppController.instance.SetState(ApplicationStates.VideoSection);
     }
 
     public void OnPlayAgainClicked()
@@ -63,7 +54,7 @@ public class StoryMap : MonoBehaviour
         ProgressController.SaveProgress();
         ProgressController.CreateNewPlayer();
         gameFinishedPanel.SetActive(false);
-        AppController.instance.SetStage(ApplicationStates.StartMenu);
+        AppController.instance.SetState(ApplicationStates.StartMenu);
         Debug.Log("Restart : Old Character saved as finished, new character created to play from begin.");
     }
 

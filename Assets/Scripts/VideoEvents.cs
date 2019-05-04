@@ -3,78 +3,79 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using System;
 
 public class VideoEvents : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
-    bool fired = false;
+    bool fired;
+
+    private void Awake()
+    {
+        videoPlayer.loopPointReached += EndReached;
+    }
 
     private void OnEnable()
     {
+        PrepareVideoPlayer();
+    }
+
+    private void PrepareVideoPlayer()
+    {
         fired = false;
-        videoPlayer.loopPointReached += EndReached;
-        videoPlayer.Play();
-        videoPlayer.Pause();
-        if (AppController.instance.mute)
-            videoPlayer.GetComponent<VideoPlayer>().SetDirectAudioMute(0, true);
-        else
-            videoPlayer.GetComponent<VideoPlayer>().SetDirectAudioMute(0, false);
+
+        if (videoPlayer.clip != null)
+            videoPlayer.clip = null;
+        
+        VideoClip vclip = Resources.Load<VideoClip>("Videos/" + AppController.instance.currentPlayer.Destination);
+
+        videoPlayer.clip = vclip;
+        videoPlayer.Prepare();
     }
 
     private void OnDisable()
     {
-        videoPlayer.Stop();
+        videoPlayer.clip = null;
     }
 
     private void Update()
     {
-        //Debug.Log("videoPlayer.isPrepared : " + videoPlayer.isPrepared.ToString());
         if (!videoPlayer.isPlaying && videoPlayer.isPrepared && !fired)
         {
             videoPlayer.Play();
             fired = true;
-        }
-        //Debug.Log(videoPlayer.frame.ToString() + " , " + videoPlayer.frameCount.ToString());
-        if((ulong)videoPlayer.frame == videoPlayer.frameCount)
-        {
-            NextStage();
-        }
+        }   
     }
 
-
-    public void onButtonPause()
+    public void OnButtonPause()
     {
         if(videoPlayer.isPlaying)
             videoPlayer.Pause();
     }
 
-    public void onButtonResume()
+    public void OnButtonResume()
     {
         if (videoPlayer.isPaused)
             videoPlayer.Play();
     }
 
-    public void onButtonReplay()
+    public void OnButtonReplay()
     {
         videoPlayer.Stop();
-        fired = false;
         videoPlayer.Play();
-        videoPlayer.Pause();
     }
 
-    public void onButtonSkip()
+    public void OnButtonSkip()
     {
-        videoPlayer.Stop();
-        NextStage();
-        //Invoke("NextStage", 1f);
+        NextState();
     }
     void EndReached(VideoPlayer vp)
     {
         videoPlayer.clip = null;
-        Invoke("NextStage", 2f);
+        Invoke("NextState", 1f);
     }
-    void NextStage()
+    void NextState()
     {
-        AppController.instance.SetStage(AppEnums.ApplicationStates.BalloonGame);
+        AppController.instance.SetState(AppEnums.ApplicationStates.BalloonGame);
     }
 }

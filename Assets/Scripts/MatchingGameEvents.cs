@@ -94,7 +94,7 @@ public class MatchingGameEvents : MonoBehaviour
         yield return new WaitForSeconds(inSec);
 
         ProgressController.SaveProgress();
-        AppController.instance.SetStage(AppEnums.ApplicationStates.StoryMap);
+        AppController.instance.SetState(AppEnums.ApplicationStates.StoryMap);
     }
 
     /*manages slide handler priority,

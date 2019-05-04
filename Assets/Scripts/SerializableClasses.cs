@@ -91,14 +91,14 @@ public class Player
         }
     }
 
-    public void GoDest()
+    public void SetGoDest()
     {
         DestinationNames dest;
         if (Enum.TryParse<DestinationNames>(AppController.instance.currentPlayer.Destination, true, out dest))
         {
             AppController.instance.goDestination = new Destination(dest);
             if (AppController.instance.goDestination.fillItemListAgain)
-                GoDest();
+                SetGoDest();
         }
         else
         {

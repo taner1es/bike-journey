@@ -110,6 +110,8 @@ public static class ProgressController
                 Debug.Log(AppController.instance.currentPlayer.PlayerName + " - Successfully Deleted");
                 if (AppController.instance.allPlayerProgressData.playersList.Count > 0)
                     AppController.instance.currentPlayer = AppController.instance.allPlayerProgressData.playersList[0];
+                else
+                    AppController.instance.currentPlayer = null;
 
                 SaveProgress();
                 return true;

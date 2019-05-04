@@ -27,12 +27,12 @@ public class MainMenu : MonoBehaviour
     public void OnGoButtonClicked()
     {
         if(AppController.instance.currentPlayer != null && AppController.instance.allPlayerProgressData.playersList.Count > 0)
-            AppController.instance.SetStage(ApplicationStates.StoryMap);
+            AppController.instance.SetState(ApplicationStates.StoryMap);
         else
         {
             ProgressController.CreateNewPlayer();
 
-            AppController.instance.SetStage(ApplicationStates.StoryMap);
+            AppController.instance.SetState(ApplicationStates.StoryMap);
 
             Debug.Log("No Characted Found - New Character Created and Saved Automatically.");
         }

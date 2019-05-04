@@ -212,7 +212,7 @@ public class BalloonGameEvents : MonoBehaviour
     //switch to matching game
     void GoToMatchingGame()
     {
-        AppController.instance.SetStage(AppEnums.ApplicationStates.MatchingGame);
+        AppController.instance.SetState(AppEnums.ApplicationStates.MatchingGame);
     }
 
     IEnumerator WaitInSeconds(float second)

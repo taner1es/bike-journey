@@ -55,11 +55,9 @@ public class ProgressMenu : MonoBehaviour
     public void OnYesDeleteButtonClicked()
     {
         if (ProgressController.DeleteCurrentCharacter())
-        {
-            deleteApplyPanel.SetActive(false);
             clickedPlayer = null;
-        }
 
+        deleteApplyPanel.SetActive(false);
         LoadPlayerList();
     }
 

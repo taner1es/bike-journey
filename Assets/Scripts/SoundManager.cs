@@ -75,7 +75,7 @@ public class SoundManager : MonoBehaviour
 
     public void PronounceItemName(Item item)
     {
-        AudioClip aClip = Resources.Load<AudioClip>("Audios/Items/" + item.itemName);
+        AudioClip aClip = Resources.Load<AudioClip>("Audios/Items/Destinations/"+ item.itemDestination + "/" + item.itemName);
         if(aClip != null)
             sources[1].PlayOneShot(aClip);
         else

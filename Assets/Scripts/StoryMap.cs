@@ -26,7 +26,9 @@ public class StoryMap : MonoBehaviour
 
         progressBarFiller.localScale = new Vector3(AppController.instance.currentPlayer.ProgressPercentage, 1, 1);
 
-        if(AppController.instance.currentPlayer.ProgressPercentage >= 100)
+        ProgressController.SaveProgress();
+
+        if (AppController.instance.currentPlayer.ProgressPercentage >= 100)
         {
             gameFinishedPanel.SetActive(true);
         }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using AppEnums;
-using UnityEngine.EventSystems;
 using UnityEngine.Video;
 
 public class AppController : MonoBehaviour
@@ -10,15 +9,10 @@ public class AppController : MonoBehaviour
 
     public ApplicationStates appState { get; set; }
 
-    public Player player;
+    public PlayerProgress allPlayerProgressData; 
+    public Player currentPlayer;
 
-    public GameObject startMenuPanel;
-    public GameObject storyMapPanel;
-    public GameObject videoPanel;
-    public GameObject ballonGameParent;
-    public GameObject matchingGameParent;
-    public VideoPlayer videoPlayer;
-    public VideoClip[] videoClips;
+    public GameObject[] stateParents = new GameObject[5];
 
     private string currentAppState;
     public Destination goDestination;
@@ -31,6 +25,7 @@ public class AppController : MonoBehaviour
 
     private void Awake()
     {
+        //singleton initialization
         if (instance == null)
             instance = this;
         else if (instance != this)
@@ -38,123 +33,63 @@ public class AppController : MonoBehaviour
 
         DontDestroyOnLoad(instance);
 
-        //Debug.Log("Screen Resolution :  " + Screen.currentResolution);
+        //set null current player on game awaked
+        AppController.instance.currentPlayer = null;
+        AppController.instance.allPlayerProgressData = null;
 
+        //save file path
+        Debug.Log(Application.persistentDataPath);
+
+        //holding camera values
         cameraHeight = Camera.main.orthographicSize;
         cameraWidth = cameraHeight * Camera.main.aspect;
 
-        //InitializeApp();
-        StartForTesting();
+        //sets active screen to welcome
+        SetState(ApplicationStates.StartMenu); 
+
+        //load game data from JSON
+        AppController.instance.dataController = new DataController();
+        AppController.instance.dataController.LoadGameData();
+
+        //tries to load saved game data if any exists from previous session(s)
+        ProgressController.LoadLastSession();
     }
 
-    void StartForTesting()
+    private void OnApplicationQuit()
     {
-        goDestination = new Destination(DestinationNames.School);
-        //only startmenu panel works on initilization
-        startMenuPanel.SetActive(false);
-
-        //all other panels have been disabled 
-        storyMapPanel.SetActive(false);
-        videoPanel.SetActive(false);
-        ballonGameParent.SetActive(false);
-        matchingGameParent.SetActive(true);
-    }
-
-    public void InitializeApp()
-    {
-        //only startmenu panel works on initilization
-        startMenuPanel.SetActive(true);
-
-        //all other panels have been disabled 
-        storyMapPanel.SetActive(false);
-        videoPanel.SetActive(false);
-        ballonGameParent.SetActive(false);
-        matchingGameParent.SetActive(false);
-    }
-
-    //Play Button event on Start Menu Screen
-    public void OnPlayButtonClicked() {
-        startMenuPanel.SetActive(false);
-        storyMapPanel.SetActive(true);
-
-        player = new Player();
-        appState = ApplicationStates.StoryMap;
-    }
-
-    //Destinate selection event on story map screen
-    public void OnDestinationButtonClicked()
-    {
-        player.SelectDestination(EventSystem.current.currentSelectedGameObject);
-    }
-
-    //Go button event on story map to video panel
-    public void OnGoButtonClicked()
-    {
-        goDestination = new Destination(player.selectedDestination);
-
-        PrepareVideoClip();
-
-    }
-
-    public void PrepareVideoClip()
-    {
-        string destination = goDestination.destinationName.ToString();
-        
-        switch (destination)
+        if(currentPlayer != null)
         {
-            case "School":
-                videoPlayer.clip = videoClips[0];
-                break;
-            case "Camp":
-                videoPlayer.clip = videoClips[1];
-                break;
-            default:
-                videoPlayer.clip = videoClips[0];
-            break;
+            allPlayerProgressData.lastSessionPlayerId = currentPlayer.PlayerID;
+            Debug.Log("Saved - Last Session Id : " + allPlayerProgressData.lastSessionPlayerId);
+            ProgressController.SaveProgress();
         }
-
-        videoPlayer.playOnAwake = false;
-        videoPlayer.Prepare();
-
-        storyMapPanel.SetActive(false);
-        videoPanel.SetActive(true);
-    }
-
-    public void Exit()
-    {
-
-    }
-
-    public void ShowInstructions()
-    {
-
-    }
-
-    public void ShowSettings()
-    {
-
-    }
-
-    private void Update()
-    {
-        switch (appState.ToString())
+        else
         {
-            case "Welcome":
-
-                break;
-            case "StoryMap":
-
-                break;
-            case "Video":
-
-                break;
-            case "BalloonGame":
-
-                break;
-            case "MatchingGame":
-
-                break;
+            Debug.Log("No currentPlayer Found and progress not saved.");
+        }
+    }
+    public void SetState(ApplicationStates stateToSet)
+    {
+        foreach(GameObject iterator in stateParents)
+        {
+            if (iterator.name != stateToSet.ToString())
+            {
+                iterator.SetActive(false);
+            }
+            else
+            {
+                iterator.SetActive(true);
+                appState = stateToSet;
+            }
         }
     }
 
+    public void OnQuitButtonClicked()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                    Application.Quit();
+        #endif
+    }
 }

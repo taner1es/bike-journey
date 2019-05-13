@@ -24,7 +24,7 @@ public class GameDataEditor : EditorWindow
     void OnGUI()
     {
         scrollPos = scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(this.minSize.x), GUILayout.Height(this.minSize.y));
-        
+
         if (itemData != null)
         {
             SerializedObject serializedObject = new SerializedObject(this);
@@ -39,14 +39,12 @@ public class GameDataEditor : EditorWindow
             {
                 SaveGameData();
             }
-        }   
+        }
         if(GUILayout.Button("Load data"))
         {
             LoadGameData();
         }
-        
         EditorGUILayout.EndScrollView();
-        
     }
 
     private void LoadGameData()
@@ -65,6 +63,14 @@ public class GameDataEditor : EditorWindow
     }
     void SaveGameData()
     {
+        int lower = itemData.allItemData.GetLowerBound(0);
+        int upper = itemData.allItemData.GetUpperBound(0);
+
+        for (int i = lower; i <= upper; i++)
+        {
+            itemData.allItemData[i].itemID = i;
+        }
+
         string dataAsJson = JsonUtility.ToJson(itemData);
         string filePath = Application.dataPath + "/Resources/itemList.json";
         File.WriteAllText(filePath, dataAsJson);

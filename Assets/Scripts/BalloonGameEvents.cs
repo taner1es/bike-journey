@@ -29,6 +29,7 @@ public class BalloonGameEvents : MonoBehaviour
                 balloonInstance.GetComponent<Renderer>().material.color = UnityEngine.Random.ColorHSV(0f,1f,1f,1f,1f,1f,0.4f,0.7f);
                 balloonInstance.transform.GetChild(0).GetComponent<TextMeshPro>().text = item.itemName;
                 inflated = true;
+                SoundManager.instance.PronounceItemName(item);
             }
         }
     }
@@ -50,15 +51,11 @@ public class BalloonGameEvents : MonoBehaviour
     float inputInterval;
     bool clickedOnStand;
 
-    //temp debug object
-    public GameObject debugLog;
-
     private void OnEnable()
     {
         balloons = new List<BalloonValues>();
         clickedOnStand = false;
         CreateButtons();
-
     }
 
     void FixedUpdate()
@@ -72,24 +69,6 @@ public class BalloonGameEvents : MonoBehaviour
         if (balloons != null)
             if(balloons.Count > 0)
                 BalloonMovement();
-
-
-
-        Debugger();
-    }
-
-    private void Debugger()
-    {
-        int i = 0;
-        foreach (BalloonValues item in balloons)
-        {
-            if (item.inflated)
-                i++;
-        }
-        Debugging.SetDebugText(
-            " Ballons: " + i
-            + "\n AppState: " + AppController.instance.appState.ToString() +
-            "\n Cur.Dest.: " + AppController.instance.player.currentDestination.ToString());
     }
 
     //initialize all buttons for specific destination
@@ -233,8 +212,7 @@ public class BalloonGameEvents : MonoBehaviour
     //switch to matching game
     void GoToMatchingGame()
     {
-        AppController.instance.ballonGameParent.SetActive(false);
-        AppController.instance.matchingGameParent.SetActive(true);
+        AppController.instance.SetState(AppEnums.ApplicationStates.MatchingGame);
     }
 
     IEnumerator WaitInSeconds(float second)

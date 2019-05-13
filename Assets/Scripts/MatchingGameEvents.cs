@@ -28,7 +28,7 @@ public class MatchingGameEvents : MonoBehaviour
             }
             else
             {
-                string spritePath = "Textures/" + item.itemName;
+                string spritePath = "Textures/Items/Destinations/" + item.itemDestination + "/"+ item.itemName;
                 var texture = Resources.Load<Texture2D>(spritePath);
                 instance.GetComponent<SpriteRenderer>().sprite = Resources.Load(spritePath, typeof(Sprite)) as Sprite;
             }
@@ -71,14 +71,12 @@ public class MatchingGameEvents : MonoBehaviour
         heldIcon = false;
         heldStandArea = false;
         heldStandIcon = false;
-
     }
 
     private void FixedUpdate()
     {
         SlideEvents();
         CheckForGameFinished();
-        Debugger();
     }
 
     //checks  for all items matched
@@ -86,24 +84,17 @@ public class MatchingGameEvents : MonoBehaviour
     {
         if(matchingIcons.Count == 0)
         {
-            Invoke("End", 3);
+            StartCoroutine(End(3));
         }
     }
 
-    //matching game ends
-    private void End()
+    //matching game ends in seconds 
+    private IEnumerator End(int inSec)
     {
-        AppController.instance.InitializeApp();
-    }
+        yield return new WaitForSeconds(inSec);
 
-    //manage debug messages which is needed in runtime debugging
-    private void Debugger()
-    {
-        Debugging.SetDebugText(
-            " heldIcon: " + heldIcon.ToString() +
-            "\n heldStand: " + heldStand.ToString() +
-            "\n heldStandArea: " + heldStandArea +
-            "\n heldStandIcon: " + heldStandIcon);
+        ProgressController.SaveProgress();
+        AppController.instance.SetState(AppEnums.ApplicationStates.StoryMap);
     }
 
     /*manages slide handler priority,
@@ -363,6 +354,10 @@ public class MatchingGameEvents : MonoBehaviour
                     //matchingAreas.RemoveAt(i);
                     matchingIcons.RemoveAt(i);
                     ReorderFirstIndexAndLastIndex();
+
+                    //add correctly matched item to player progress data list
+                    AppController.instance.currentPlayer.LearnedItems.Add(iterator.item);
+                    SoundManager.instance.PronounceItemName(iterator.item);
                     return true;
                 }
                 i++;

@@ -105,7 +105,17 @@ public class ProgressMenu : MonoBehaviour
         {
             text = "ID: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerID.ToString() + "</color>";
             text += "\nName: " + "<color=\"red\">" + AppController.instance.currentPlayer.PlayerName + "</color>";
-            text += "\nLearned Words:\n\n";
+
+            //if all the words have learned, no need to show the location and destination.
+            //and if player didn't start to play yet, also don't show the location and destination infos.
+            if (!AppController.instance.currentPlayer.Finished && AppController.instance.currentPlayer.CompletedDestinations.Count > 0)
+            {
+                text += "\nLocation: " + "<color=\"red\">" + AppController.instance.currentPlayer.CompletedDestinations[AppController.instance.currentPlayer.CompletedDestinations.Count - 1] + "</color>";
+                text += "\nDestination: " + "<color=\"red\">" + AppController.instance.currentPlayer.Destination + "</color>";
+            }
+
+            text += "\nLearned Words:\n";
+
             text += "<color=\"yellow\"><align=\"center\">";
 
             if (AppController.instance.currentPlayer.LearnedItems != null && AppController.instance.currentPlayer.LearnedItems.Count > 0)
@@ -116,6 +126,9 @@ public class ProgressMenu : MonoBehaviour
                     text += iterator.itemName + "\n";
                 }
                 text += "\n<size=90%>" + AppController.instance.currentPlayer.LearnedItems.Count + " words have learned.";
+
+                if (AppController.instance.currentPlayer.ProgressPercentage >= 100)
+                    text += "\n\n<color=\"orange\">!! Congratulations, You have learned all the words.!!</color>\n\n";
             }
             else
             {

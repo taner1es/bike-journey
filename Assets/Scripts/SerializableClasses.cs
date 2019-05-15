@@ -41,6 +41,7 @@ public class Player
     float progressPercentage;
     List<Item> learnedItems;
     List<string> completedDestinations;
+    bool finished;
 
     public Player(string newName)
     {
@@ -53,11 +54,12 @@ public class Player
             playerName = newName;
         learnedItems = new List<Item>();
         completedDestinations = new List<string>();
+        finished = false;
 
         PlayerProgress.idCounter++;
     }
 
-    public void CalculateProgress()
+    public void CalculateProgressPercentage()
     {
         int countedItemsAll = AppController.instance.dataController.allItemData.Length;
         int countedItemsLearned = learnedItems.Count;
@@ -67,13 +69,14 @@ public class Player
         Debug.Log("calculated progressPercentage = " + progressPercentage);
     }
 
-    public void FindDestination()
+    public void FindNextDestination()
     {        
         Item[] allItems = AppController.instance.dataController.allItemData;
 
         if(completedDestinations != null)
         {
-            foreach (var iterator in Enum.GetValues(typeof(DestinationNames)))
+            Array destNames = Enum.GetValues(typeof(DestinationNames));
+            foreach (var iterator in destNames)
             {
                 //check for the current item destination already completed before
                 if (!completedDestinations.Exists(e => e.EndsWith(iterator.ToString())))
@@ -112,5 +115,6 @@ public class Player
     public string Destination { get => destination;private set => destination = value; }
     public List<Item> LearnedItems { get => learnedItems; set => learnedItems = value; }
     public List<string> CompletedDestinations { get => completedDestinations; set => completedDestinations = value; }
+    public bool Finished { get => finished; set => finished = value; }
 }
 

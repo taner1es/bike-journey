@@ -10,15 +10,46 @@ public class StoryMap : MonoBehaviour
     public TextMeshProUGUI textMeshProProgressBar;
     public Transform progressBarFiller;
     public GameObject gameFinishedPanel;
+    public GameObject character;
+    public GameObject[] paths;
+
+    bool riding = false;
+
+    List<Transform> icons = null;
+
+    private void Awake()
+    {
+        //load destination icons to memory
+        icons = new List<Transform>();
+
+        foreach (GameObject iterator in GameObject.FindGameObjectsWithTag("Destination"))
+        {
+            icons.Add(iterator.transform);
+        }
+    }
 
     private void OnEnable()
     {
         ApplyProgress();
+        CharPositionToCurrentDest();
+    }
+
+    private void CharPositionToCurrentDest()
+    {
+        if(icons.Count > 0)
+        {
+            int index = (int)Enum.Parse(typeof(DestinationNames), AppController.instance.currentPlayer.Destination);
+
+            character.transform.position = icons[index].position;
+            character.transform.rotation = Quaternion.identity;
+        }
     }
 
     private void ApplyProgress()
     {
-        AppController.instance.currentPlayer.CalculateProgress();
+        AppController.instance.currentPlayer.SetGoDest();
+
+        AppController.instance.currentPlayer.CalculateProgressPercentage();
 
         textMeshProProgressBar.text = "%" + AppController.instance.currentPlayer.ProgressPercentage + " Finished ("
             + AppController.instance.currentPlayer.LearnedItems.Count.ToString() + " of "
@@ -45,8 +76,29 @@ public class StoryMap : MonoBehaviour
 
     public void OnContinueButtonClicked()
     {
-        AppController.instance.currentPlayer.SetGoDest();
-        AppController.instance.SetState(ApplicationStates.VideoSection);
+        if (Follow.stop)
+        {
+            RideTheBike();
+        }
+    }
+
+    private void RideTheBike()
+    {
+        int index = (int) Enum.Parse(typeof(DestinationNames), AppController.instance.currentPlayer.Destination);
+        character.GetComponent<Follow>().path = paths[index];
+        Follow.stop = false;
+        Follow.currentTargetIndex = 0;
+        riding = true;
+    }
+
+    private void Update()
+    {
+        //waits for riding until finishing all the path before changing state to video section
+        if (riding && Follow.stop)
+        {
+            AppController.instance.SetState(ApplicationStates.VideoSection);
+            riding = false;
+        }
     }
 
     public void OnPlayAgainClicked()

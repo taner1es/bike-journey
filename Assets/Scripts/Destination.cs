@@ -9,19 +9,13 @@ public class Destination
     public DestinationNames destinationName;
     public List<Item> items;
     public bool fillItemListAgain;
-    public bool noMoreDestination;
 
     public Destination(DestinationNames destinationToLoad)
     {
-        if (AppController.instance.currentPlayer.LearnedItems.Count == AppController.instance.dataController.allItemData.Length)
-        {
-            noMoreDestination = true;
-        }
-        else
-        {
-            noMoreDestination = false;
+        if (AppController.instance.currentPlayer.LearnedItems.Count != AppController.instance.dataController.allItemData.Length)
             FillItemList(destinationToLoad);
-        }
+        else
+            AppController.instance.currentPlayer.Finished = true;
     }
 
     private void FillItemList(DestinationNames destinationToLoad)
@@ -53,7 +47,7 @@ public class Destination
             if (!AppController.instance.currentPlayer.CompletedDestinations.Exists(e => e == destinationToLoad.ToString()))
                 AppController.instance.currentPlayer.CompletedDestinations.Add(destinationToLoad.ToString());
 
-            AppController.instance.currentPlayer.FindDestination();
+            AppController.instance.currentPlayer.FindNextDestination();
             fillItemListAgain = true;
         }
         else fillItemListAgain = false;

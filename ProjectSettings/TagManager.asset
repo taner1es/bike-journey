@@ -11,13 +11,13 @@ TagManager:
   - AreaStand
   - MatchingIcon
   - MatchingArea
-  - StoryMapDestination
   - PlayerListScrollBar
   - ProgressMenuPlayerSelectButton
   - AskForSure
   - StartMenuButton
   - TMPLoadedProfileInfoBar
   - VideoSectionParent
+  - Destination
   layers:
   - Default
   - TransparentFX

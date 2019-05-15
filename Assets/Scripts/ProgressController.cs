@@ -113,6 +113,7 @@ public static class ProgressController
                 else
                     AppController.instance.currentPlayer = null;
 
+                UpdateProfileInfoBar();
                 SaveProgress();
                 return true;
             }

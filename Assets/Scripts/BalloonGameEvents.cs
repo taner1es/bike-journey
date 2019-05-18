@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using AppEnums;
 
 public class BalloonGameEvents : MonoBehaviour
 {
@@ -83,6 +84,8 @@ public class BalloonGameEvents : MonoBehaviour
         {
             Destroy(iterator);
         }
+
+        balloons.Clear();
 
         //create buttons dynamically
         foreach (Item item in AppController.instance.goDestination.items)
@@ -276,5 +279,10 @@ public class BalloonGameEvents : MonoBehaviour
                 item.balloonInstance.GetComponent<Rigidbody2D>().AddForce(transform.right * thrust);
             }
         }
+    }
+
+    public void OnBackButtonClicked()
+    {
+        AppController.instance.SetState(ApplicationStates.StoryMap);
     }
 }

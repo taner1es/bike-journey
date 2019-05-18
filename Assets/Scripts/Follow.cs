@@ -8,7 +8,7 @@ public class Follow : MonoBehaviour
     Transform[] transformPath;
     Rigidbody2D rb;
     Vector2 direction;
-    float moveSpeed = 6f;
+    float moveSpeed = 25f;
 
     public static bool stop = true;
     public static int currentTargetIndex = 0;

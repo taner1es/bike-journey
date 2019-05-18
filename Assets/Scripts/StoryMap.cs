@@ -51,9 +51,9 @@ public class StoryMap : MonoBehaviour
 
         AppController.instance.currentPlayer.CalculateProgressPercentage();
 
-        textMeshProProgressBar.text = "%" + AppController.instance.currentPlayer.ProgressPercentage + " Finished ("
+        textMeshProProgressBar.text = "%" + AppController.instance.currentPlayer.ProgressPercentage/* + " Finished ("
             + AppController.instance.currentPlayer.LearnedItems.Count.ToString() + " of "
-            + AppController.instance.dataController.allItemData.Length.ToString() + " words have learned)";
+            + AppController.instance.dataController.allItemData.Length.ToString() + " words have learned)"*/;
 
         progressBarFiller.localScale = new Vector3(AppController.instance.currentPlayer.ProgressPercentage, 1, 1);
 
@@ -71,6 +71,8 @@ public class StoryMap : MonoBehaviour
 
     public void OnBackButtonClicked()
     {
+        riding = false;
+        Follow.stop = true;
         AppController.instance.SetState(ApplicationStates.StartMenu);
     }
 

@@ -6,7 +6,7 @@ using System;
 using AppEnums;
 using UnityEngine.UI;
 
-public class MatchingGameEvents : MonoBehaviour
+public class MatchingGame : MonoBehaviour
 {
     class MatchingItemValues
     {

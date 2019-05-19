@@ -108,6 +108,7 @@ public class MatchingGameEvents : MonoBehaviour
             if (Input.GetMouseButton(0) && heldCollider != null)
             {
                 Vector3 inputPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                inputPosition.z = 0;
                 heldCollider.transform.position = inputPosition;
             }
             else

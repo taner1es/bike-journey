@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AppEnums;
 using TMPro;
+using UnityEngine.UI;
 
 public class StoryMap : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class StoryMap : MonoBehaviour
     public Transform progressBarFiller;
     public GameObject gameFinishedPanel;
     public GameObject character;
+    public GameObject progressPanelIcon;
+    public TextMeshProUGUI textMeshProProgressInfoPanel;
     public GameObject[] paths;
 
     bool riding = false;
@@ -36,6 +39,29 @@ public class StoryMap : MonoBehaviour
         continueButtonClicked = false;
         ApplyProgress();
         LocateCharacter();
+        PrepareProgressInfoPanel();
+    }
+
+    private void PrepareProgressInfoPanel()
+    {
+        string spritePath = "Textures/Destinations/" + AppController.instance.currentPlayer.Destination;
+        var texture = Resources.Load<Texture2D>(spritePath);
+        progressPanelIcon.GetComponent<Image>().sprite = Resources.Load(spritePath, typeof(Sprite)) as Sprite;
+
+        int numberOfItemLeft, numberOfItemLearned;
+
+        numberOfItemLearned = AppController.instance.currentPlayer.LearnedItems.FindAll(e => e.itemDestination == AppController.instance.currentPlayer.Destination).Count;
+
+        int cnt = 0;
+        foreach (Item iterator in AppController.instance.dataController.allItemData)
+        {
+            if (iterator.itemDestination == AppController.instance.currentPlayer.Destination)
+                cnt++;
+        }
+
+        numberOfItemLeft = cnt - numberOfItemLearned;
+
+        textMeshProProgressInfoPanel.SetText(AppController.instance.currentPlayer.Destination + "\n <color=\"red\">" + numberOfItemLearned + "/" + cnt + "</color>");
     }
 
     private void LocateCharacter()
@@ -84,6 +110,14 @@ public class StoryMap : MonoBehaviour
         riding = false;
         Follow.stop = true;
         AppController.instance.SetState(ApplicationStates.StartMenu);
+    }
+
+    public void OnWatchVideoClicked()
+    {
+        if (stay)
+        {
+            AppController.instance.SetState(ApplicationStates.VideoSection);
+        }
     }
 
     public void OnContinueButtonClicked()

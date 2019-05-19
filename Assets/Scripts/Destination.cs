@@ -45,8 +45,14 @@ public class Destination
                 AppController.instance.currentPlayer.CompletedDestinations.Add(destinationToLoad.ToString());
 
             AppController.instance.currentPlayer.FindNextDestination();
+            StoryMap.stay = false;
             fillItemListAgain = true;
         }
-        else fillItemListAgain = false;
+        else
+        {
+            if (AppController.instance.currentPlayer.LearnedItems.Count == 0)
+                StoryMap.stay = false;
+            fillItemListAgain = false;
+        }
     }
 }

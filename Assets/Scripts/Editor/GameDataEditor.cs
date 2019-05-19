@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
-using System;
 
 public class GameDataEditor : EditorWindow
 {

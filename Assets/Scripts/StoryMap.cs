@@ -16,6 +16,10 @@ public class StoryMap : MonoBehaviour
 
     List<Transform> icons = null;
 
+    private bool continueButtonClicked;
+
+    public static bool stay;
+
     private void Awake()
     {
         //load destination icons to memory
@@ -29,23 +33,30 @@ public class StoryMap : MonoBehaviour
 
     private void OnEnable()
     {
+        continueButtonClicked = false;
         ApplyProgress();
-        CharPositionToCurrentDest();
+        LocateCharacter();
     }
 
-    private void CharPositionToCurrentDest()
+    private void LocateCharacter()
     {
-        if(icons.Count > 0)
+        if (icons.Count > 0)
         {
             int index = (int)Enum.Parse(typeof(DestinationNames), AppController.instance.currentPlayer.Destination);
 
-            character.transform.position = icons[index].position;
+            if (!stay)
+                character.transform.position = icons[index].position;
+            else
+                character.transform.position = icons[index+1].position;
+
             character.transform.rotation = Quaternion.identity;
         }
     }
 
     private void ApplyProgress()
     {
+        stay = true;
+
         AppController.instance.currentPlayer.SetGoDest();
 
         AppController.instance.currentPlayer.CalculateProgressPercentage();
@@ -81,24 +92,34 @@ public class StoryMap : MonoBehaviour
         {
             RideTheBike();
         }
+        continueButtonClicked = true;
     }
 
     private void RideTheBike()
     {
-        int index = (int) Enum.Parse(typeof(DestinationNames), AppController.instance.currentPlayer.Destination);
-        character.GetComponent<Follow>().path = paths[index];
-        Follow.stop = false;
-        Follow.currentTargetIndex = 0;
-        riding = true;
+        if (!stay)
+        {
+            int index = (int)Enum.Parse(typeof(DestinationNames), AppController.instance.currentPlayer.Destination);
+            character.GetComponent<Follow>().path = paths[index];
+            Follow.stop = false;
+            Follow.currentTargetIndex = 0;
+            riding = true;
+        }
     }
 
     private void Update()
     {
-        //waits for riding until finishing all the path before changing state to video section
-        if (riding && Follow.stop)
+        if (continueButtonClicked)
         {
-            AppController.instance.SetState(ApplicationStates.VideoSection);
-            riding = false;
+            if (stay)
+            {
+                AppController.instance.SetState(ApplicationStates.BalloonGame);
+            }
+            else if (riding && Follow.stop)//waits for riding until finishing all the path before changing state to video section
+            {
+                AppController.instance.SetState(ApplicationStates.VideoSection);
+                riding = false;
+            }
         }
     }
 

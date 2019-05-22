@@ -267,26 +267,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907528, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.57904
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907528, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.57904
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907528, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.57904
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907535, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
     - target: {fileID: 5483625560699907532, guid: 0da902ec184f59d41a3518c770d7525f,
         type: 3}
       propertyPath: m_Mesh
@@ -294,69 +274,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
         type: 3}
-      propertyPath: m_text
-      value: Balloon Inside Text
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91,
-        type: 2}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_textAlignment
-      value: 514
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_overflowMode
+      propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
         type: 3}
-      propertyPath: m_margin.z
-      value: -1.0295715
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_margin.w
-      value: -0.54096156
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 2
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0da902ec184f59d41a3518c770d7525f, type: 3}

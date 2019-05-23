@@ -13,7 +13,9 @@ public class StoryMap : MonoBehaviour
     public GameObject character;
     public GameObject progressPanelIcon;
     public TextMeshProUGUI textMeshProProgressInfoPanel;
+    public GameObject watchButton;
     public GameObject[] paths;
+    
 
     bool riding = false;
 
@@ -62,6 +64,12 @@ public class StoryMap : MonoBehaviour
         numberOfItemLeft = cnt - numberOfItemLearned;
 
         textMeshProProgressInfoPanel.SetText(AppController.instance.currentPlayer.Destination + "\n <color=\"red\">" + numberOfItemLearned + "/" + cnt + "</color>");
+
+        if (stay)
+            watchButton.SetActive(true);
+        else
+            watchButton.SetActive(false);
+        
     }
 
     private void LocateCharacter()

@@ -36,6 +36,7 @@ public class BalloonGame : MonoBehaviour
     public GameObject balloonPrefab;
     public GameObject inflateParentPrefab;
     public GameObject inflatePrefab;
+    public Sprite inflatorArmActivated;
 
     private float maxThrust = 100;
     public float thrust { get; private set; }
@@ -99,7 +100,7 @@ public class BalloonGame : MonoBehaviour
                     if (collider.OverlapPoint(inputPosition) && !item.inflated)
                     {
                         item.inflate(balloonPrefab, gameObject);
-                        item.inflator.GetComponent<Renderer>().material.color = item.balloonInstance.GetComponent<Renderer>().material.color;
+                        item.inflator.GetComponent<SpriteRenderer>().sprite = inflatorArmActivated;
                         FitBalloonsSize();
                         CheckForAllBalloonsHaveInflated();
                     }

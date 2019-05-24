@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7768907847922693085}
   - component: {fileID: 7768907847922693086}
   - component: {fileID: 7768907847922693084}
-  - component: {fileID: 7768907847922693075}
+  - component: {fileID: 5410291966650831836}
   m_Layer: 0
   m_Name: Balloon
   m_TagString: Balloon
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7768907847922693087}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.61, y: 2.74, z: -1}
-  m_LocalScale: {x: 396.57687, y: 329.7748, z: 13.68065}
+  m_LocalPosition: {x: -0.60999, y: 2.74, z: -1}
+  m_LocalScale: {x: 115.6942, y: 96.20589, z: 3.9910843}
   m_Children:
   - {fileID: 2866951151832532095}
   m_Father: {fileID: 0}
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5c3de44d08c714e43a391276d0d029db, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4eff6210dfa328543af12fb62589f891, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,7 +103,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &7768907847922693075
+--- !u!60 &5410291966650831836
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,7 +120,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.23, y: 0.91}
+    oldSize: {x: 1.94, y: 3.33}
     newSize: {x: 1.23, y: 0.91}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -128,28 +128,49 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.43020672, y: 0.19010414}
-      - {x: 0.29798818, y: 0.31933138}
-      - {x: 0.166648, y: 0.38732114}
-      - {x: -0.0071672485, y: 0.45231962}
-      - {x: -0.13489738, y: 0.40412468}
-      - {x: -0.30829912, y: 0.3100528}
-      - {x: -0.4183958, y: 0.1994389}
-      - {x: -0.4574133, y: 0.11225093}
-      - {x: -0.44618624, y: 0.026961995}
-      - {x: -0.4267537, y: -0.017112864}
-      - {x: -0.3502068, y: -0.0988666}
-      - {x: -0.21886656, y: -0.18350588}
-      - {x: -0.010414829, y: -0.2764957}
-      - {x: -0.022835845, y: -0.3197932}
-      - {x: -0.11278448, y: -0.41623753}
-      - {x: -0.086856335, y: -0.4362375}
-      - {x: 0.0062549487, y: -0.33665612}
-      - {x: 0.01955706, y: -0.27554882}
-      - {x: 0.23693511, y: -0.17692259}
-      - {x: 0.3842273, y: -0.067577735}
-      - {x: 0.45355716, y: 0.046545424}
-      - {x: 0.45288712, y: 0.13020676}
+    - - {x: -0.06, y: -0.755}
+      - {x: 0.02, y: -0.765}
+      - {x: 0.049999997, y: -0.73499995}
+      - {x: 0.049999997, y: -0.695}
+      - {x: 0.02, y: -0.66499996}
+      - {x: 0.17999999, y: -0.49499997}
+      - {x: 0.5, y: -0.114999995}
+      - {x: 0.71999997, y: 0.155}
+      - {x: 0.83, y: 0.315}
+      - {x: 0.90999997, y: 0.515}
+      - {x: 0.96, y: 0.675}
+      - {x: 0.96999997, y: 0.715}
+      - {x: 0.96999997, y: 1.185}
+      - {x: 0.88, y: 1.375}
+      - {x: 0.76, y: 1.505}
+      - {x: 0.62, y: 1.5949999}
+      - {x: 0.35, y: 1.665}
+      - {x: -0.14999999, y: 1.665}
+      - {x: -0.31, y: 1.635}
+      - {x: -0.53, y: 1.535}
+      - {x: -0.64, y: 1.4449999}
+      - {x: -0.78999996, y: 1.295}
+      - {x: -0.93, y: 1.005}
+      - {x: -0.96, y: 0.875}
+      - {x: -0.96999997, y: 0.78499997}
+      - {x: -0.96999997, y: 0.145}
+      - {x: -0.94, y: 0.044999998}
+      - {x: -0.91999996, y: -0.015}
+      - {x: -0.87, y: -0.13499999}
+      - {x: -0.84, y: -0.195}
+      - {x: -0.74, y: -0.36499998}
+      - {x: -0.51, y: -0.565}
+      - {x: -0.25, y: -0.685}
+      - {x: -0.21, y: -0.745}
+      - {x: -0.29, y: -0.885}
+      - {x: -0.34, y: -1.105}
+      - {x: -0.34, y: -1.375}
+      - {x: -0.32, y: -1.555}
+      - {x: -0.26, y: -1.645}
+      - {x: -0.25, y: -1.645}
+      - {x: -0.21, y: -1.605}
+      - {x: -0.22999999, y: -1.2149999}
+      - {x: -0.17, y: -0.965}
 --- !u!1001 &7768907848517757367
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -220,12 +241,12 @@ PrefabInstance:
     - target: {fileID: 5483625560699907528, guid: 0da902ec184f59d41a3518c770d7525f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.289
+      value: -0.81
       objectReference: {fileID: 0}
     - target: {fileID: 5483625560699907528, guid: 0da902ec184f59d41a3518c770d7525f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.257
+      value: 0.81
       objectReference: {fileID: 0}
     - target: {fileID: 5483625560699907528, guid: 0da902ec184f59d41a3518c770d7525f,
         type: 3}
@@ -266,21 +287,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907532, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483625560699907529, guid: 0da902ec184f59d41a3518c770d7525f,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0da902ec184f59d41a3518c770d7525f, type: 3}

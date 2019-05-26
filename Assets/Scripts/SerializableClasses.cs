@@ -59,7 +59,7 @@ public class Player
         PlayerProgress.idCounter++;
     }
 
-    public void CalculateProgressPercentage()
+    public void CalculateProgressPercentage() 
     {
         int countedItemsAll = AppController.instance.dataController.allItemData.Length;
         int countedItemsLearned = learnedItems.Count;

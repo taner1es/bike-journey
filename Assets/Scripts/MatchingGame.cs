@@ -40,7 +40,7 @@ public class MatchingGame : MonoBehaviour
     public GameObject matchingIconStandPrefab;
     public GameObject matchingAreaStandPrefab;
     public GameObject matchingIconPrefab;
-    public GameObject matchingAreaPrefab;
+    public GameObject matchingAreaOpenedPrefab;
 
     private List<MatchingItemValues> matchingIcons;
     private List<MatchingItemValues> matchingAreas;
@@ -184,7 +184,7 @@ public class MatchingGame : MonoBehaviour
 
         ShuffleItems<Item>(AppController.instance.goDestination.items);
         foreach (Item item in AppController.instance.goDestination.items)
-            matchingAreas.Add(new MatchingItemValues(item, Instantiate(matchingAreaPrefab, matchingAreaStandPrefab.transform), false));
+            matchingAreas.Add(new MatchingItemValues(item, Instantiate(matchingAreaOpenedPrefab, matchingAreaStandPrefab.transform), false));
     }
 
     //shuffling list, used for item list to shuffle before instantiation

@@ -893,7 +893,7 @@ PrefabInstance:
     - target: {fileID: 1490009927407096443, guid: 38e4c6b7ea6075548b036e9f26d29eb3,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.0100098
+      value: -1.0100021
       objectReference: {fileID: 0}
     - target: {fileID: 1490009925805983535, guid: 38e4c6b7ea6075548b036e9f26d29eb3,
         type: 3}
@@ -1672,6 +1672,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7167211411763101361, guid: d7fdadfb93cc90d4cb26d6ad442df939,
+        type: 3}
+      propertyPath: balloonThrustSpeedFactor
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7fdadfb93cc90d4cb26d6ad442df939, type: 3}

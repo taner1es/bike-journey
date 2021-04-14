@@ -40,6 +40,7 @@ public class BalloonGame : MonoBehaviour
 
     private float maxThrust = 100;
     public float thrust { get; private set; }
+    public float balloonThrustSpeedFactor = 10f;
 
     private int maxTopForce = 6;
     private int maxBottomForce = 4;
@@ -200,8 +201,7 @@ public class BalloonGame : MonoBehaviour
                     thrust = 1;
                 }
 
-                item.balloonInstance.GetComponent<Rigidbody2D>().AddForce(transform.up * thrust);
-                item.balloonInstance.GetComponent<Rigidbody2D>().AddForce(transform.right * thrust);
+                item.balloonInstance.GetComponent<Rigidbody2D>().AddForce((transform.up + transform.right) * thrust * Time.deltaTime * balloonThrustSpeedFactor);
             }
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine.Video;
 public class VideoEvents : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
+    public VideoClip[] vclips;
     bool fired;
 
     private void Awake()
@@ -22,8 +23,9 @@ public class VideoEvents : MonoBehaviour
 
         if (videoPlayer.clip != null)
             videoPlayer.clip = null;
-        
-        VideoClip vclip = Resources.Load<VideoClip>("Videos/" + AppController.instance.currentPlayer.Destination);
+
+        //VideoClip vclip = Resources.Load<VideoClip>("Videos/" + AppController.instance.currentPlayer.Destination);
+        VideoClip vclip = vclips[AppController.instance.currentPlayer.CompletedDestinations.Count];
 
         videoPlayer.clip = vclip;
         videoPlayer.Prepare();

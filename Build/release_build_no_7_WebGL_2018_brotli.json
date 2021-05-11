@@ -1,0 +1,13 @@
+{
+"companyName": "Taner",
+"productName": "Bike Journey",
+"dataUrl": "release_build_no_7_WebGL_2018_brotli.data.unityweb",
+"wasmCodeUrl": "release_build_no_7_WebGL_2018_brotli.wasm.code.unityweb",
+"wasmFrameworkUrl": "release_build_no_7_WebGL_2018_brotli.wasm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Light",
+"backgroundColor": "#FF5240",
+"cacheControl": {"default": "must-revalidate"}
+}
